@@ -8,13 +8,14 @@ import java.util.Map;
 
 import br.com.impacta.sql.Sql;
 
-public class Pessoa implements Crud{
+public class Pessoa implements Crud {
 	private String nome;
 	private String email;
 	private String senha;
 	private String telefone;
 	private boolean inadmin;
 	private String cpf;
+
 	public Calendar getData_registro() {
 		return data_registro;
 	}
@@ -27,7 +28,6 @@ public class Pessoa implements Crud{
 	private Calendar data_registro;
 	private int idtipo_pessoa;
 	private Map<String, String> params = new HashMap<>();
-
 
 	public String getNome() {
 		return nome;
@@ -96,13 +96,13 @@ public class Pessoa implements Crud{
 	@Override
 	public void insert() throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void delete() throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -112,7 +112,15 @@ public class Pessoa implements Crud{
 		ResultSet rs = new Sql().select("SELECT * FROM tb_pessoas where idpessoa = :ID", params);
 
 		this.setData(rs);
-		
+
+	}
+
+	public boolean login() throws ClassNotFoundException, SQLException{
+		params.clear();
+		params.put("ID", Long.toString(getIdpessoa()));
+		params.put("SENHA", getSenha());
+		ResultSet rs = new Sql().select("SELECT * FROM `tb_pessoas` WHERE idpessoa = :ID AND senha = :SENHA AND `inadmin` = 1", params);
+		return rs.next();
 	}
 
 	@Override

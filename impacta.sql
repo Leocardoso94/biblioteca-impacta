@@ -91,10 +91,13 @@ DROP TABLE IF EXISTS `tb_editoras`;
 CREATE TABLE `tb_editoras` (
   `ideditora` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `nome_editora` varchar(64) NOT NULL,
-  PRIMARY KEY (`ideditora`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`ideditora`,`nome_editora`),
+  UNIQUE KEY `nome_editora` (`nome_editora`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tb_editoras` */
+
+insert  into `tb_editoras`(`ideditora`,`nome_editora`) values (1,'Casa do Código'),(2,'Levante'),(9,'Luba'),(8,'Luna'),(5,'Roberts'),(6,'Teste');
 
 /*Table structure for table `tb_emprestimos` */
 
@@ -109,9 +112,11 @@ CREATE TABLE `tb_emprestimos` (
   PRIMARY KEY (`idemprestimo`),
   KEY `tb_emprestimos_FKIndex1` (`num_exemplar`),
   KEY `tb_emprestimos_FKIndex2` (`idpessoa`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tb_emprestimos` */
+
+insert  into `tb_emprestimos`(`idemprestimo`,`idpessoa`,`num_exemplar`,`data_emprestimo`,`data_prevista_retorno`) values (1,1600559,1,'2017-05-19 13:31:21','2017-05-25'),(2,1600559,2,'2017-05-19 13:31:38','2017-05-18');
 
 /*Table structure for table `tb_exemplares` */
 
@@ -124,9 +129,11 @@ CREATE TABLE `tb_exemplares` (
   `data_aquisicao` date NOT NULL,
   PRIMARY KEY (`num_exemplar`),
   KEY `tb_exemplar_FKIndex1` (`idobra`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tb_exemplares` */
+
+insert  into `tb_exemplares`(`num_exemplar`,`idobra`,`emprestado`,`data_aquisicao`) values (1,1,1,'2017-05-04'),(2,1,0,'2017-05-20');
 
 /*Table structure for table `tb_obras` */
 
@@ -140,9 +147,11 @@ CREATE TABLE `tb_obras` (
   `tipo_obra` varchar(64) NOT NULL,
   PRIMARY KEY (`idobra`),
   KEY `tb_obras_FKIndex1` (`ideditora`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tb_obras` */
+
+insert  into `tb_obras`(`idobra`,`ideditora`,`titulo`,`ano_publicacao`,`tipo_obra`) values (1,1,'Test-Driven Development',2016,'Livro');
 
 /*Table structure for table `tb_pessoas` */
 

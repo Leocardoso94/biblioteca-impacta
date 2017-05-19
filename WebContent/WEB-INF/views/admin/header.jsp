@@ -60,7 +60,7 @@ desired effect
   <header class="main-header">
 
     <!-- Logo -->
-    <a href="index2.html" class="logo">
+    <a href="admin" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>FIT</b></span>
       <!-- logo for regular state and mobile devices -->
@@ -211,7 +211,7 @@ desired effect
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
-                  <a href="/admin/logout" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="logout" class="btn btn-default btn-flat">Sair</a>
                 </div>
               </li>
             </ul>
@@ -258,19 +258,55 @@ desired effect
       <ul class="sidebar-menu">
         <li class="header">HEADER</li>
         <!-- Optionally, you can add icons to the links -->
-        <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
-        <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
+        <li class="active"><a href="admin"><i class="fa fa-link"></i> <span>Dashboard</span></a></li>
         <li class="treeview">
-          <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
+          <a href="#"><i class="fa fa-link"></i> <span>Empréstimos</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#">Link in level 2</a></li>
-            <li><a href="#">Link in level 2</a></li>
+            <li><a href="#">Novo Empréstimo</a></li>
+            <li><a href="#">Consultar Empréstimo</a></li>
+            <li><a href="#">Renovação de Empréstimo</a></li>
           </ul>
         </li>
+        <li class=""><a href="#"><i class="fa fa-link"></i> <span>Devolução</span></a></li>
+        <li class=""><a href="#"><i class="fa fa-link"></i> <span>Reservas</span></a></li>
+        <li class="treeview">
+          <a href="#"><i class="fa fa-book"></i> <span>Acervo</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="#">Consultar Acervo</a></li>
+            <li><a href="#">Cadastrar Acervo</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#"><i class="fa fa-user"></i> <span>Usuários</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="#">Consultar Usuário</a></li>
+            <li><a href="#">Cadastrar Usuário</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#"><i class="fa fa-users"></i> <span>Autores</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="#">Consultar Autor</a></li>
+            <li><a href="#">Cadastrar Autor</a></li>
+          </ul>
+        </li>        
+        <li class=""><a href="admin/editora"><i class="fa fa-link"></i> <span>Editoras</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->
     </section>

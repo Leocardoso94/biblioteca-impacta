@@ -2,6 +2,7 @@ package br.com.impacta.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,8 +65,16 @@ public class Editora implements Crud {
 
 	}
 
-	public static ResultSet getList() throws ClassNotFoundException, SQLException {
-		return new Sql().select("SELECT * FROM tb_editoras ORDER BY nome_editora", null);
+	public ArrayList<Editora> getList() throws ClassNotFoundException, SQLException {
+		ArrayList<Editora> editoras = new ArrayList<>();
+		ResultSet rs = new Sql().select("SELECT * FROM tb_editoras ORDER BY ideditora DESC", null);
+		while (rs.next()) {
+			Editora editora = new Editora();
+			editora.setIdeditora(rs.getLong("ideditora"));
+			editora.setNome_editora(rs.getString("nome_editora"));
+			editoras.add(editora);
+		}
+		return editoras;
 	}
 
 }

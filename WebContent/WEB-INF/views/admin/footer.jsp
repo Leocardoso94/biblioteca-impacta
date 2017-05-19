@@ -4,10 +4,10 @@
 <footer class="main-footer">
   <!-- To the right -->
   <div class="pull-right hidden-xs">
-    Anything you want
+    BibliotecaFIT
   </div>
   <!-- Default to the left -->
-  <strong>Copyright &copy; 2017 <a href="#">Company</a>.</strong> All rights reserved.
+  <strong>Copyright &copy; 2017 <a href="#">Gustavo e Leonardo</a>.</strong> Todos os direitos reservados.
 </footer>
 
 <!-- Control Sidebar -->
