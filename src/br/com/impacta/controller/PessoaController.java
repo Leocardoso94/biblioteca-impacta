@@ -36,7 +36,7 @@ public class PessoaController {
 			this.erroPessoaExiste = null;
 			pessoa.insert();
 		} catch (MySQLIntegrityConstraintViolationException e) {
-			erroPessoaExiste = "<p class=\"col-sm-12\" style=\"color: red;\">O pessoa que você quer inserir já existe!</p>";
+			erroPessoaExiste = "<p class=\"col-sm-12\" style=\"color: red;\">A pessoa que você quer inserir já existe!</p>";
 		}
 		return "redirect:pessoa";
 	}

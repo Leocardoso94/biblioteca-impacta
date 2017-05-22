@@ -52,11 +52,11 @@ CREATE TABLE `tb_autores` (
   `nome_autor` varchar(64) NOT NULL,
   PRIMARY KEY (`idautor`),
   UNIQUE KEY `nome_autor` (`nome_autor`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tb_autores` */
 
-insert  into `tb_autores`(`idautor`,`nome_autor`) values (1,'Leonardo Cardoso'),(2,'Teste');
+insert  into `tb_autores`(`idautor`,`nome_autor`) values (12,'Carlos'),(18,'Gustavo'),(9,'João Cardoso'),(1,'Leonardo Cardoso');
 
 /*Table structure for table `tb_autores_obras` */
 
@@ -95,11 +95,11 @@ CREATE TABLE `tb_editoras` (
   `nome_editora` varchar(64) NOT NULL,
   PRIMARY KEY (`ideditora`,`nome_editora`),
   UNIQUE KEY `nome_editora` (`nome_editora`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tb_editoras` */
 
-insert  into `tb_editoras`(`ideditora`,`nome_editora`) values (10,'Alura'),(9,'Caelum'),(1,'Casa do Código'),(2,'Levante'),(8,'Luna'),(5,'Roberts Edits'),(6,'Teste');
+insert  into `tb_editoras`(`ideditora`,`nome_editora`) values (10,'Alura Teste'),(9,'Caelum'),(1,'Casa do Código'),(2,'Levante'),(8,'Luna'),(5,'Roberts Edits');
 
 /*Table structure for table `tb_emprestimos` */
 
@@ -219,7 +219,7 @@ CREATE TABLE `tb_tipo_pessoa` (
 
 /*Data for the table `tb_tipo_pessoa` */
 
-insert  into `tb_tipo_pessoa`(`idtipo_pessoa`,`nome_tipo`) values (1,'Professor'),(2,'Aluno'),(3,'Funcionário');
+insert  into `tb_tipo_pessoa`(`idtipo_pessoa`,`nome_tipo`) values (2,'Aluno'),(3,'Funcionário'),(1,'Professor');
 
 /* Procedure structure for procedure `sp_assunto_insert` */
 

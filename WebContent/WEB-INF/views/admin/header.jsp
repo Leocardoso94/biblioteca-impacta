@@ -255,8 +255,8 @@ desired effect
 				<ul class="sidebar-menu">
 					<li class="header">HEADER</li>
 					<!-- Optionally, you can add icons to the links -->
-					<li class="active"><a href="<c:url value="/admin"/>"><i class="fa fa-link"></i>
-							<span>Dashboard</span></a></li>
+					<li class="active"><a href="<c:url value="/admin"/>"><i
+							class="fa fa-link"></i> <span>Dashboard</span></a></li>
 					<li class="treeview"><a href="#"><i class="fa fa-link"></i>
 							<span>Empréstimos</span> <span class="pull-right-container">
 								<i class="fa fa-angle-left pull-right"></i>
@@ -276,16 +276,10 @@ desired effect
 							<li><a href="#">Consultar Acervo</a></li>
 							<li><a href="#">Cadastrar Acervo</a></li>
 						</ul></li>
-					<li class="treeview"><a href="#"><i class="fa fa-user"></i>
-							<span>Usuários</span> <span class="pull-right-container">
-								<i class="fa fa-angle-left pull-right"></i>
-						</span> </a>
-						<ul class="treeview-menu">
-							<li><a href="#">Consultar Usuário</a></li>
-							<li><a href="#">Cadastrar Usuário</a></li>
-						</ul></li>
-					<li class=""><a href="<c:url value="/admin/autor"/>"><i class="fa fa-male"></i>
-							<span>Autores</span></a></li>
+					<li class=""><a href="<c:url value="/admin/pessoa"/>"><i
+							class="fa fa-user"></i> <span>Usuarios</span></a></li>
+					<li class=""><a href="<c:url value="/admin/autor"/>"><i
+							class="fa fa-male"></i> <span>Autores</span></a></li>
 					<li class=""><a href="<c:url value="/admin/editora"/>"><i
 							class="fa fa-industry"></i> <span>Editoras</span></a></li>
 				</ul>
