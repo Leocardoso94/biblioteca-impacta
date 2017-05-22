@@ -74,4 +74,10 @@ public class Assunto implements Crud {
 	public static ResultSet getList() throws ClassNotFoundException, SQLException {
 			return new Sql().select("SELECT * FROM tb_assuntos ORDER BY nome_assunto", null);
 	}
+
+	@Override
+	public void update() throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		
+	}
 }

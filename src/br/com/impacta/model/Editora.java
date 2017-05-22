@@ -26,7 +26,7 @@ public class Editora implements Crud {
 	}
 
 	public void setNome_editora(String nome_editora) {
-		this.nome_editora = nome_editora;
+		this.nome_editora = nome_editora.trim();
 	}
 
 	@Override
@@ -45,7 +45,13 @@ public class Editora implements Crud {
 		params.put("ID", Long.toString(this.getIdeditora()));
 		new Sql().query("DELETE FROM tb_editoras where ideditora = :ID", params);
 		this.setIdeditora(0);
-		this.setNome_editora(null);
+	}
+
+	public void update() throws ClassNotFoundException, SQLException {
+		params.clear();
+		params.put("ID", Long.toString(this.getIdeditora()));
+		params.put("NOME", this.getNome_editora());
+		new Sql().query("UPDATE   `impacta`.`tb_editoras` SET  `nome_editora` = :NOME WHERE ideditora = :ID", params);
 	}
 
 	@Override

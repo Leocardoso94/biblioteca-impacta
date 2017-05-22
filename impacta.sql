@@ -23,7 +23,8 @@ DROP TABLE IF EXISTS `tb_assuntos`;
 CREATE TABLE `tb_assuntos` (
   `idassunto` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `nome_assunto` varchar(64) NOT NULL,
-  PRIMARY KEY (`idassunto`)
+  PRIMARY KEY (`idassunto`),
+  UNIQUE KEY `nome_assunto` (`nome_assunto`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `tb_assuntos` */
@@ -49,8 +50,9 @@ DROP TABLE IF EXISTS `tb_autores`;
 CREATE TABLE `tb_autores` (
   `idautor` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `nome_autor` varchar(64) NOT NULL,
-  PRIMARY KEY (`idautor`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`idautor`),
+  UNIQUE KEY `nome_autor` (`nome_autor`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tb_autores` */
 
@@ -93,11 +95,11 @@ CREATE TABLE `tb_editoras` (
   `nome_editora` varchar(64) NOT NULL,
   PRIMARY KEY (`ideditora`,`nome_editora`),
   UNIQUE KEY `nome_editora` (`nome_editora`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tb_editoras` */
 
-insert  into `tb_editoras`(`ideditora`,`nome_editora`) values (1,'Casa do Código'),(2,'Levante'),(9,'Luba'),(8,'Luna'),(5,'Roberts'),(6,'Teste');
+insert  into `tb_editoras`(`ideditora`,`nome_editora`) values (10,'Alura'),(9,'Caelum'),(1,'Casa do Código'),(2,'Levante'),(8,'Luna'),(5,'Roberts Edits'),(6,'Teste');
 
 /*Table structure for table `tb_emprestimos` */
 
@@ -211,7 +213,8 @@ DROP TABLE IF EXISTS `tb_tipo_pessoa`;
 CREATE TABLE `tb_tipo_pessoa` (
   `idtipo_pessoa` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `nome_tipo` varchar(30) NOT NULL,
-  PRIMARY KEY (`idtipo_pessoa`)
+  PRIMARY KEY (`idtipo_pessoa`),
+  UNIQUE KEY `nome_tipo` (`nome_tipo`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tb_tipo_pessoa` */

@@ -2,6 +2,7 @@ package br.com.impacta.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -112,14 +113,14 @@ public class Pessoa implements Crud {
 		ResultSet rs = new Sql().select("SELECT * FROM tb_pessoas where idpessoa = :ID", params);
 
 		this.setData(rs);
-
 	}
 
-	public boolean login() throws ClassNotFoundException, SQLException{
+	public boolean login() throws ClassNotFoundException, SQLException {
 		params.clear();
 		params.put("ID", Long.toString(getIdpessoa()));
 		params.put("SENHA", getSenha());
-		ResultSet rs = new Sql().select("SELECT * FROM `tb_pessoas` WHERE idpessoa = :ID AND senha = :SENHA AND `inadmin` = 1", params);
+		ResultSet rs = new Sql()
+				.select("SELECT * FROM `tb_pessoas` WHERE idpessoa = :ID AND senha = :SENHA AND `inadmin` = 1", params);
 		return rs.next();
 	}
 
@@ -135,9 +136,55 @@ public class Pessoa implements Crud {
 			this.setCpf(rs.getString("cpf"));
 			Calendar data = Calendar.getInstance();
 			data.setTime(rs.getDate("data_registro"));
-			this.setData_registro(data);;
+			this.setData_registro(data);
 		}
+
+	}
+
+	public ArrayList<Pessoa> getList() throws ClassNotFoundException, SQLException {
+		ArrayList<Pessoa> pessoas = new ArrayList<>();
+		ResultSet rs = new Sql().select("SELECT * FROM `tb_pessoas`", null);
+		while (rs.next()) {
+			Pessoa pessoa = new Pessoa();
+			pessoa.setIdtipo_pessoa(rs.getInt("idtipo_pessoa"));
+			pessoa.setIdpessoa(rs.getLong("idpessoa"));
+			pessoa.setNome(rs.getString("nome"));
+			pessoa.setSenha(rs.getString("senha"));
+			pessoa.setTelefone(rs.getString("telefone"));
+			pessoa.setInadmin(rs.getBoolean("inadmin"));
+			pessoa.setCpf(rs.getString("cpf"));
+			Calendar data = Calendar.getInstance();
+			data.setTime(rs.getDate("data_registro"));
+			pessoa.setData_registro(data);
+			pessoas.add(pessoa);
+		}
+		return pessoas;
+	}
+
+	public static int count() throws ClassNotFoundException, SQLException {
+		ResultSet rs = new Sql().select("SELECT COUNT(`idpessoa`) FROM `tb_pessoas`", null);
+		int rows = 0;
+		if (rs.last()) {
+			rows = rs.getInt(1);
+		}
+
+		return rows;
+	}
+
+	public void update() throws ClassNotFoundException, SQLException {
+		params.clear();
+		params.put("CPF", this.getCpf());
+		params.put("EMAIL", this.getEmail());
+		params.put("NOME", this.getNome());
+		params.put("SENHA", this.getSenha());
+		params.put("TELEFONE", this.getTelefone());
+		params.put("DATA", this.getData_registro().toString());
+		params.put("ID", Long.toString(this.getIdpessoa()));
+		params.put("IDTIPO", Long.toString(this.getIdtipo_pessoa()));
+		params.put("ADMIN", Boolean.toString(this.isInadmin()));
 		
+		new Sql().query("UPDATE   `impacta`.`tb_autores` SET  `nome_autor` = :NOME WHERE idautor = :ID", params);
+
 	}
 
 }

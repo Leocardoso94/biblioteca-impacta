@@ -35,7 +35,7 @@ public class Autor implements Crud {
 	}
 
 	public void setNome_autor(String nome_autor) {
-		this.nome_autor = nome_autor;
+		this.nome_autor = nome_autor.trim();
 	}
 
 	public void insert() throws ClassNotFoundException, SQLException {
@@ -50,7 +50,6 @@ public class Autor implements Crud {
 		params.put("ID", Long.toString(this.getIdautor()));
 		new Sql().query("DELETE FROM tb_autores where idautor = :ID", params);
 		this.setIdautor(0);
-		this.setNome_autor(null);
 	}
 
 	@Override
@@ -63,7 +62,7 @@ public class Autor implements Crud {
 	}
 
 	/**
-	 *  Método utilizado para setar os atributos após alguma consulta
+	 * Método utilizado para setar os atributos após alguma consulta
 	 * 
 	 */
 	public void setData(ResultSet rs) throws SQLException {
@@ -80,8 +79,24 @@ public class Autor implements Crud {
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public static ResultSet getList() throws ClassNotFoundException, SQLException {
-		return new Sql().select("SELECT * FROM tb_autores ORDER BY nome_autor", null);
+	public ArrayList<Autor> getList() throws ClassNotFoundException, SQLException {
+
+		ArrayList<Autor> autores = new ArrayList<>();
+		ResultSet rs = new Sql().select("SELECT * FROM tb_autores ORDER BY idautor DESC", null);
+		while (rs.next()) {
+			Autor autor = new Autor();
+			autor.setIdautor(rs.getLong("idautor"));
+			autor.setNome_autor(rs.getString("nome_autor"));
+			autores.add(autor);
+		}
+		return autores;
+	}
+
+	public void update() throws ClassNotFoundException, SQLException {
+		params.clear();
+		params.put("ID", Long.toString(this.getIdautor()));
+		params.put("NOME", this.getNome_autor());
+		new Sql().query("UPDATE   `impacta`.`tb_autores` SET  `nome_autor` = :NOME WHERE idautor = :ID", params);
 	}
 
 }

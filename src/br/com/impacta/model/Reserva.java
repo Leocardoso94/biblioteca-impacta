@@ -1,7 +1,11 @@
 package br.com.impacta.model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import br.com.impacta.sql.Sql;
 
 public class Reserva {
 	private long idreserva;
@@ -48,5 +52,15 @@ public class Reserva {
 
 	public void setData_retirada(Calendar data_retirada) {
 		this.data_retirada = data_retirada;
+	}
+	
+	public static int count() throws ClassNotFoundException, SQLException {
+		ResultSet rs = new Sql().select("SELECT COUNT(`idreserva`) FROM `tb_reservas`", null);
+		int rows = 0;
+		if (rs.last()) {
+			rows = rs.getInt(1);
+		}
+
+		return rows;
 	}
 }

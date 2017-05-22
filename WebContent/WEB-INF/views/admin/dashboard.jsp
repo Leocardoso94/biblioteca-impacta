@@ -21,8 +21,8 @@
 						class="ion ion-ios-gear-outline"></i></span>
 
 					<div class="info-box-content">
-						<span class="info-box-text">CPU Traffic</span> <span
-							class="info-box-number">90<small>%</small></span>
+						<span class="info-box-text">Reservas</span> <span
+							class="info-box-number">${contagemDeReservas}</span>
 					</div>
 					<!-- /.info-box-content -->
 				</div>
@@ -35,7 +35,7 @@
 
 					<div class="info-box-content">
 						<span class="info-box-text">Exemplares</span> <span
-							class="info-box-number">41,410</span>
+							class="info-box-number">${contagemDeExemplares}</span>
 					</div>
 					<!-- /.info-box-content -->
 				</div>
@@ -53,7 +53,7 @@
 
 					<div class="info-box-content">
 						<span class="info-box-text">Empréstimos</span> <span
-							class="info-box-number">760</span>
+							class="info-box-number">${contagemDeEmprestimos}</span>
 					</div>
 					<!-- /.info-box-content -->
 				</div>
@@ -67,7 +67,7 @@
 
 					<div class="info-box-content">
 						<span class="info-box-text">Membros</span> <span
-							class="info-box-number">2,000</span>
+							class="info-box-number">${contagemDePessoas}</span>
 					</div>
 					<!-- /.info-box-content -->
 				</div>

@@ -1,6 +1,10 @@
 package br.com.impacta.model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Calendar;
+
+import br.com.impacta.sql.Sql;
 
 public class Emprestimo {
 	private long idemprestimo;
@@ -48,4 +52,15 @@ public class Emprestimo {
 	public void setData_prevista_retorno(Calendar data_prevista_retorno) {
 		this.data_prevista_retorno = data_prevista_retorno;
 	}
+
+	public static int count() throws ClassNotFoundException, SQLException {
+		ResultSet rs = new Sql().select("SELECT COUNT(`idemprestimo`) FROM `tb_emprestimos`", null);
+		int rows = 0;
+		if (rs.last()) {
+			rows = rs.getInt(1);
+		}
+
+		return rows;
+	}
+
 }

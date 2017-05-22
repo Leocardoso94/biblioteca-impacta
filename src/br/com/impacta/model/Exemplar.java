@@ -2,6 +2,7 @@ package br.com.impacta.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -83,7 +84,36 @@ public class Exemplar implements Crud {
 		}
 	}
 
-	public static ResultSet getList() throws ClassNotFoundException, SQLException {
-		return new Sql().select("SELECT * FROM tb_exemplares ORDER BY num_exemplar", null);
+	public static ArrayList<Exemplar> getList() throws ClassNotFoundException, SQLException {
+		ArrayList<Exemplar> exemplares = new ArrayList<>();
+		ResultSet rs = new Sql().select("SELECT * FROM tb_exemplares ORDER BY num_exemplar", null);
+		while (rs.next()) {
+			Exemplar exemplar = new Exemplar();
+			exemplar.setNum_exemplar(rs.getInt("idexemplar"));
+			Calendar data = Calendar.getInstance();
+			data.setTime(rs.getDate("data_aquisicao"));
+			exemplar.setData_aquisicao(data);
+			exemplar.setNum_exemplar(rs.getLong("num_exemplar"));
+			exemplar.setIdobra(rs.getLong("idobra"));
+			exemplar.setEmprestado(rs.getBoolean("emprestado"));
+			exemplares.add(exemplar);
+		}
+		return exemplares;
+	}
+	
+	public static int count() throws ClassNotFoundException, SQLException {
+		ResultSet rs = new Sql().select("SELECT COUNT(`num_exemplar`) FROM `tb_exemplares`", null);
+		int rows = 0;
+		if (rs.last()) {
+			rows = rs.getInt(1);
+		}
+
+		return rows;
+	}
+
+	@Override
+	public void update() throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		
 	}
 }
