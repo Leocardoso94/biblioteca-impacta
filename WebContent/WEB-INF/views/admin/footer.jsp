@@ -98,6 +98,20 @@
 <!-- AdminLTE App -->
 <script src="${adminPath}/dist/js/app.min.js"></script>
 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
+<script>
+    $(document).ready(function () { 
+        var $seuCampoCpf3 = $("#inputCpf3");
+        $seuCampoCpf3.mask('000.000.000-00', {reverse: true});
+        var $seuCampoTel3 = $("#inputTelefone3");
+        $seuCampoTel3.mask('00 00000-0000', {reverse: true});
+        var $seuCampoCpf = $(".inputCpf");
+        $seuCampoCpf.mask('000.000.000-00', {reverse: true});
+        var $seuCampoTel = $(".inputTelefone");
+        $seuCampoTel.mask('00 00000-0000', {reverse: true});
+    });
+</script>
+
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. Slimscroll is required when using the

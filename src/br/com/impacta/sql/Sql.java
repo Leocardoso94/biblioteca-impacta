@@ -9,7 +9,7 @@ import java.util.Map;
 public class Sql {
 	private final String HOSTNAME = "127.0.0.1";
 	private final String USERNAME = "root";
-	private final String PASSWORD = "impacta";
+	private final String PASSWORD = "";
 	private final String DBNAME = "impacta";
 	private Connection conn;
 

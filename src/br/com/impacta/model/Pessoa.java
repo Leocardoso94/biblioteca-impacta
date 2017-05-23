@@ -104,14 +104,25 @@ public class Pessoa implements Crud {
 
 	@Override
 	public void insert() throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
+		params.clear();
+		params.put("TIPO", Long.toString(this.getIdtipo_pessoa()));
+		params.put("NOME", this.getNome());
+		params.put("EMAIL", this.getEmail());
+		params.put("SENHA", this.getSenha());
+		params.put("TEL", this.getTelefone());
+		params.put("ADMIN", this.isInadmin() ? "1" : "0");
+		params.put("CPF", this.getCpf());
+		new Sql()
+				.query("INSERT INTO `impacta`.`tb_pessoas` (  `idtipo_pessoa`, `nome`, `email`, `senha`, `telefone`, `inadmin`, `cpf` ) VALUES "
+						+ "(:TIPO , :NOME , :EMAIL , :SENHA , :TEL , :ADMIN , :CPF )", params);
 
 	}
 
 	@Override
 	public void delete() throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
-
+		params.clear();
+		params.put("ID", Long.toString(this.getIdpessoa()));
+		new Sql().query("DELETE FROM  `impacta`.`tb_pessoas` WHERE `idpessoa` = :ID", params);
 	}
 
 	@Override
@@ -135,8 +146,8 @@ public class Pessoa implements Crud {
 		params.clear();
 		params.put("ID", Long.toString(getIdpessoa()));
 		params.put("SENHA", getSenha());
-		ResultSet rs = new Sql().select(
-				"SELECT * FROM `tb_pessoas` WHERE idpessoa = :ID AND senha = :SENHA AND `inadmin` = 1", params);
+		ResultSet rs = new Sql()
+				.select("SELECT * FROM `tb_pessoas` WHERE idpessoa = :ID AND senha = :SENHA AND `inadmin` = 1", params);
 		return rs.next();
 	}
 
@@ -198,12 +209,13 @@ public class Pessoa implements Crud {
 		params.put("NOME", this.getNome());
 		params.put("SENHA", this.getSenha());
 		params.put("TELEFONE", this.getTelefone());
-		params.put("DATA", this.getData_registro().toString());
 		params.put("ID", Long.toString(this.getIdpessoa()));
 		params.put("IDTIPO", Long.toString(this.getIdtipo_pessoa()));
-		params.put("ADMIN", Boolean.toString(this.isInadmin()));
+		params.put("ADMIN", this.isInadmin() ? "1" : "0");
 
-		new Sql().query("UPDATE   `impacta`.`tb_autores` SET  `nome_autor` = :NOME WHERE idautor = :ID", params);
+		new Sql().query("UPDATE `impacta`.`tb_pessoas` SET " + "`idtipo_pessoa` = :IDTIPO , " + "`nome` = :NOME , "
+				+ "`email` = :EMAIL , " + "`senha` = :SENHA , " + "`telefone` = :TELEFONE, " + "`inadmin` = :ADMIN, "
+				+ "`cpf` = :CPF " + "WHERE `idpessoa` = :ID", params);
 
 	}
 

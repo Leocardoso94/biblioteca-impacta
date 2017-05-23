@@ -11,8 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
-
 import br.com.impacta.model.Pessoa;
 import br.com.impacta.model.TipoPessoa;
 import br.com.impacta.sql.Sql;
@@ -27,19 +25,14 @@ public class PessoaController {
 		if (erroPessoaExiste != null) {
 			model.addAttribute("erroPessoaExiste", erroPessoaExiste);
 		}
-		model.addAttribute("tiposPessoa",new TipoPessoa().getList());
+		model.addAttribute("tiposPessoa", new TipoPessoa().getList());
 		model.addAttribute("page", "pessoa/form");
 		return "admin/index";
 	}
 
 	@RequestMapping("admin/adicionarPessoa")
 	public String adicionarPessoa(Pessoa pessoa) throws ClassNotFoundException, SQLException {
-		try {
-			this.erroPessoaExiste = null;
-			pessoa.insert();
-		} catch (MySQLIntegrityConstraintViolationException e) {
-			erroPessoaExiste = "<p class=\"col-sm-12\" style=\"color: red;\">A pessoa que você quer inserir já existe!</p>";
-		}
+		pessoa.insert();
 		return "redirect:pessoa";
 	}
 
@@ -50,13 +43,13 @@ public class PessoaController {
 		params.put("BUSCA", busca);
 		ResultSet rs = new Sql().select("SELECT * From tb_pessoas WHERE nome_pessoa LIKE :BUSCA", params);
 		ArrayList<Pessoa> pessoas = new ArrayList<>();
-		while (rs.next()) {			
+		while (rs.next()) {
 			Pessoa pessoa = new Pessoa();
 			pessoa.setIdpessoa(rs.getLong("idpessoa"));
 			pessoa.setNome(rs.getString("nome"));
 			pessoas.add(pessoa);
 		}
-		model.addAttribute("pessoas",pessoas);
+		model.addAttribute("pessoas", pessoas);
 		model.addAttribute("page", "pessoa/form");
 		return "admin/index";
 	}

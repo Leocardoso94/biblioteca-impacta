@@ -70,7 +70,6 @@
 										<i class="fa fa-times" aria-hidden="true"></i>
 									</button></td>
 							</tr>
-
 							<!-- Modal -->
 							<div class="modal fade modal-warning"
 								id="modal${pessoa.idpessoa}" role="dialog">
@@ -82,23 +81,87 @@
 											<button type="button" class="close" data-dismiss="modal">&times;</button>
 											<h4 class="modal-title">Alterar</h4>
 										</div>
-										<form role="form" method="post" action="alterarPessoa">
+										<form role="form" method="post" class="form-horizontal"
+											action="alterarPessoa">
+											<input value="${pessoa.idpessoa}" name="idpessoa"
+												type="hidden" readonly>
 											<div class="modal-body">
 												<div class="box-body">
 													<div class="form-group">
-														<label for="nomePessoa" class="col-sm-12 control-label">Nome
-															da Pessoa:</label>
-														<div class="col-sm-12">
-															<input type="hidden" name="idpessoa"
-																value="${pessoa.idpessoa}" readonly> <input
-																type="text" value="${pessoa.nome}" name="nome"
-																class="form-control" id="nomePessoa"
-																placeholder="Nome da Pessoa" required>
+														<label for="inputNome3" class="col-sm-2 control-label">Nome</label>
+
+														<div class="col-sm-10">
+															<input type="text" name="nome" class="form-control"
+																id="inputNome3" value="${pessoa.nome}"
+																placeholder="Nome" required>
+														</div>
+													</div>
+													<div class="form-group">
+														<label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+
+														<div class="col-sm-10">
+															<input type="email" name="email" class="form-control"
+																id="inputEmail3" value="${pessoa.email}"
+																placeholder="Email" required>
+														</div>
+													</div>
+													<div class="form-group">
+														<label for="inputPassword3" class="col-sm-2 control-label">Senha</label>
+
+														<div class="col-sm-10">
+															<input type="password" name="senha" class="form-control"
+																id="inputPassword3" value="${pessoa.senha}"
+																placeholder="Password" required>
+														</div>
+													</div>
+													<div class="form-group">
+														<label for="inputTelefone2" class="col-sm-2 control-label">Celular</label>
+
+														<div class="col-sm-10">
+															<input type="text" name="telefone" class="form-control"
+																id="inputTelefone2" class="inputTelefone"
+																value="${pessoa.telefone}" pattern=".{13,}"
+																placeholder="Telefone" required>
+														</div>
+													</div>
+													<div class="form-group">
+														<label for="inputCpf2" class="col-sm-2 control-label">CPF</label>
+
+														<div class="col-sm-10">
+															<input type="text" name="cpf" class="form-control"
+																pattern=".{14,}" class="inputCpf" value="${pessoa.cpf}"
+																id="inputCpf2" placeholder="CPF" required>
+														</div>
+													</div>
+													<div class="form-group">
+														<label for="inputAdmin3" class="col-sm-2 control-label">Administrador</label>
+														<div class="col-sm-10">
+															<select id="inputAdmin3" class="form-control"
+																name="inadmin">
+																<c:choose>
+																	<c:when test="${pessoa.inadmin}">
+																		<option value="true">Sim</option>
+																	</c:when>
+																</c:choose>
+																<option value="false">Não</option>
+																<option value="true">Sim</option>
+															</select>
+														</div>
+													</div>
+													<div class="form-group">
+														<label for="inputTipo3" class="col-sm-2 control-label">Tipo
+															Pessoa</label>
+														<div class="col-sm-10">
+															<select id="inputTipo3" class="form-control"
+																name="idtipo_pessoa">
+																<option value="${pessoa.idtipo_pessoa}">${pessoa.tipopessoa}</option>
+																<c:forEach items="${tiposPessoa}" var="entry">
+																	<option value="${entry.key}">${entry.value}</option>
+																</c:forEach>
+															</select>
 														</div>
 													</div>
 												</div>
-												<!-- /.box-body -->
-
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-default"
@@ -107,7 +170,6 @@
 											</div>
 										</form>
 									</div>
-
 								</div>
 							</div>
 
@@ -169,75 +231,70 @@
 							</div>
 							<form role="form" method="post" class="form-horizontal"
 								action="adicionarPessoa">
-								<div class="box-body">
-									<div class="form-group">
-										<label for="inputId3" class="col-sm-2 control-label">ID</label>
+								<div class="modal-body">
+									<div class="box-body">
+										<div class="form-group">
+											<label for="inputNome3" class="col-sm-2 control-label">Nome</label>
 
-										<div class="col-sm-10">
-											<input type="number" name="idpessoa" class="form-control"
-												id="inputId3" placeholder="Id" required>
+											<div class="col-sm-10">
+												<input type="text" name="nome" class="form-control"
+													id="inputNome3" placeholder="Nome" required>
+											</div>
 										</div>
-									</div>
-									<div class="form-group">
-										<label for="inputNome3" class="col-sm-2 control-label">Nome</label>
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">Email</label>
 
-										<div class="col-sm-10">
-											<input type="text" name="nome" class="form-control"
-												id="inputNome3" placeholder="Nome" required>
+											<div class="col-sm-10">
+												<input type="email" name="email" class="form-control"
+													id="inputEmail3" placeholder="Email" required>
+											</div>
 										</div>
-									</div>
-									<div class="form-group">
-										<label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+										<div class="form-group">
+											<label for="inputPassword3" class="col-sm-2 control-label">Senha</label>
 
-										<div class="col-sm-10">
-											<input type="email" name="email" class="form-control"
-												id="inputEmail3" placeholder="Email" required>
+											<div class="col-sm-10">
+												<input type="password" name="senha" class="form-control"
+													id="inputPassword3" placeholder="Password" required>
+											</div>
 										</div>
-									</div>
-									<div class="form-group">
-										<label for="inputPassword3" class="col-sm-2 control-label">Senha</label>
+										<div class="form-group">
+											<label for="inputTelefone3" class="col-sm-2 control-label">Celular</label>
 
-										<div class="col-sm-10">
-											<input type="password" name="senha" class="form-control"
-												id="inputPassword3" placeholder="Password" required>
+											<div class="col-sm-10">
+												<input type="text" name="telefone" class="form-control"
+													id="inputTelefone3" pattern=".{13,}" placeholder="Telefone"
+													required>
+											</div>
 										</div>
-									</div>
-									<div class="form-group">
-										<label for="inputTelefone3" class="col-sm-2 control-label">Telefone</label>
+										<div class="form-group">
+											<label for="inputCpf3" class="col-sm-2 control-label">CPF</label>
 
-										<div class="col-sm-10">
-											<input type="text" name="telefone" class="form-control"
-												id="inputTelefone3" placeholder="Telefone" required>
+											<div class="col-sm-10">
+												<input type="text" name="cpf" class="form-control"
+													pattern=".{14,}" id="inputCpf3" placeholder="CPF" required>
+											</div>
 										</div>
-									</div>
-									<div class="form-group">
-										<label for="inputCpf3" class="col-sm-2 control-label">CPF</label>
-
-										<div class="col-sm-10">
-											<input type="text" name="cpf" class="form-control"
-												id="inputCpf3" placeholder="CPF" required>
-										</div>										
-									</div>
-									<div class="form-group">
-										<label for="inputTipo3" class="col-sm-2 control-label">Tipo
-											Pessoa</label>
-										<div class="col-sm-10">
-											<select id="inputTipo3" class="form-control"
-												name="idtipopessoa">
-												<c:forEach items="${tiposPessoa}" var="entry">
-													<option value="${entry.key}">${entry.value}</option>
-												</c:forEach>
-											</select>
+										<div class="form-group">
+											<label for="inputTipo3" class="col-sm-2 control-label">Tipo
+												Pessoa</label>
+											<div class="col-sm-10">
+												<select id="inputTipo3" class="form-control"
+													name="idtipo_pessoa">
+													<c:forEach items="${tiposPessoa}" var="entry">
+														<option value="${entry.key}">${entry.value}</option>
+													</c:forEach>
+												</select>
+											</div>
 										</div>
-									</div>
-									<div class="form-group">
-										<label for="inputAdmin3" class="col-sm-2 control-label">Liberar
-											Administrador</label>
-										<div class="col-sm-10">
-											<select id="inputAdmin3" class="form-control" name="inadmin">
-												<option value="0">Não</option>
-												<option value="1">Sim</option>
-											</select>
+										<div class="form-group">
+											<label for="inputAdmin3" class="col-sm-2 control-label">Liberar
+												Administrador</label>
+											<div class="col-sm-10">
+												<select id="inputAdmin3" class="form-control" name="inadmin">
+													<option value="false">Não</option>
+													<option value="true">Sim</option>
+												</select>
+											</div>
 										</div>
 									</div>
 								</div>

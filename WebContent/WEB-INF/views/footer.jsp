@@ -90,17 +90,6 @@
 <!-- AdminLTE App -->
 <script src="/resources/admin/dist/js/app.min.js"></script>
 
-<script type="text/javascript"
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.min.js">
-</script>
-<script type="text/javascript">
-
-$('#inputCpf3"').mask('000.000.000-00', {
-	reverse : true
-});
-
-</script>
-
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. Slimscroll is required when using the
