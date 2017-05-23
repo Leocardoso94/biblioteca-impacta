@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 import br.com.impacta.model.Pessoa;
+import br.com.impacta.model.TipoPessoa;
 import br.com.impacta.sql.Sql;
 
 @Controller
@@ -26,6 +27,7 @@ public class PessoaController {
 		if (erroPessoaExiste != null) {
 			model.addAttribute("erroPessoaExiste", erroPessoaExiste);
 		}
+		model.addAttribute("tiposPessoa",new TipoPessoa().getList());
 		model.addAttribute("page", "pessoa/form");
 		return "admin/index";
 	}

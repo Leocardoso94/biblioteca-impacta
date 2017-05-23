@@ -11,7 +11,7 @@
 
 	<div class="row">
 		<div class="col-md-6">
-			<div class="box">
+			<div class="box box-success">
 				<div class="box-header with-border">
 					<h3 class="box-title">Lista de Autores</h3>
 					<hr>					

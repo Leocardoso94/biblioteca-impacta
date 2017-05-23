@@ -33,7 +33,7 @@ public class LoginController {
 	@RequestMapping("admin/efetuaLogin")
 	public String efetuaLogin(Pessoa pessoa, HttpSession session, Model model)
 			throws ClassNotFoundException, SQLException {
-		if (pessoa.login()) {
+		if (pessoa.loginAdmin()) {
 			session.setAttribute("usuarioLogado", pessoa);
 			this.erro = false;
 			return "redirect:/admin";

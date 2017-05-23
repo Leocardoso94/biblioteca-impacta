@@ -20,4 +20,8 @@ public class TipoPessoa {
 	public  String getTipoPessoa(int key){
 		return tipos.get(key);
 	}
+	
+	public HashMap<Integer, String> getList(){
+		return tipos;		
+	}
 }

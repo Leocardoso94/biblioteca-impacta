@@ -10,6 +10,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>BibliotecaFIT | Home</title>
 <c:url value="/resources/admin" var="adminPath" />
+<c:url value="/resources/css" var="cssPath" />
 <!-- Tell the browser to be responsive to screen width -->
 <meta
 	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
@@ -19,7 +20,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	href="${adminPath}/bootstrap/css/bootstrap.min.css">
 <!-- Font Awesome -->
 <link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+	href="${cssPath}/font-awesome.min.css">
 <!-- Ionicons -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">

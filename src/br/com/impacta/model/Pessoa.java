@@ -16,6 +16,11 @@ public class Pessoa implements Crud {
 	private String telefone;
 	private boolean inadmin;
 	private String cpf;
+	private String tipopessoa;
+	private long idpessoa;
+	private Calendar data_registro;
+	private int idtipo_pessoa;
+	private Map<String, String> params = new HashMap<>();
 
 	public Calendar getData_registro() {
 		return data_registro;
@@ -24,11 +29,6 @@ public class Pessoa implements Crud {
 	public void setData_registro(Calendar data_registro) {
 		this.data_registro = data_registro;
 	}
-
-	private long idpessoa;
-	private Calendar data_registro;
-	private int idtipo_pessoa;
-	private Map<String, String> params = new HashMap<>();
 
 	public String getNome() {
 		return nome;
@@ -52,6 +52,14 @@ public class Pessoa implements Crud {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	public String getTipopessoa() {
+		return tipopessoa;
+	}
+
+	public void setTipopessoa(String tipopessoa) {
+		this.tipopessoa = tipopessoa;
 	}
 
 	public String getTelefone() {
@@ -119,8 +127,16 @@ public class Pessoa implements Crud {
 		params.clear();
 		params.put("ID", Long.toString(getIdpessoa()));
 		params.put("SENHA", getSenha());
-		ResultSet rs = new Sql()
-				.select("SELECT * FROM `tb_pessoas` WHERE idpessoa = :ID AND senha = :SENHA AND `inadmin` = 1", params);
+		ResultSet rs = new Sql().select("SELECT * FROM `tb_pessoas` WHERE idpessoa = :ID AND senha = :SENHA", params);
+		return rs.next();
+	}
+
+	public boolean loginAdmin() throws ClassNotFoundException, SQLException {
+		params.clear();
+		params.put("ID", Long.toString(getIdpessoa()));
+		params.put("SENHA", getSenha());
+		ResultSet rs = new Sql().select(
+				"SELECT * FROM `tb_pessoas` WHERE idpessoa = :ID AND senha = :SENHA AND `inadmin` = 1", params);
 		return rs.next();
 	}
 
@@ -133,6 +149,7 @@ public class Pessoa implements Crud {
 			this.setSenha(rs.getString("senha"));
 			this.setTelefone(rs.getString("telefone"));
 			this.setInadmin(rs.getBoolean("inadmin"));
+			this.setEmail(rs.getString("email"));
 			this.setCpf(rs.getString("cpf"));
 			Calendar data = Calendar.getInstance();
 			data.setTime(rs.getDate("data_registro"));
@@ -143,13 +160,16 @@ public class Pessoa implements Crud {
 
 	public ArrayList<Pessoa> getList() throws ClassNotFoundException, SQLException {
 		ArrayList<Pessoa> pessoas = new ArrayList<>();
-		ResultSet rs = new Sql().select("SELECT * FROM `tb_pessoas`", null);
+		ResultSet rs = new Sql()
+				.select("SELECT * FROM `tb_pessoas` a, tb_tipo_pessoa b where a.idtipo_pessoa = b.idtipo_pessoa", null);
 		while (rs.next()) {
 			Pessoa pessoa = new Pessoa();
 			pessoa.setIdtipo_pessoa(rs.getInt("idtipo_pessoa"));
 			pessoa.setIdpessoa(rs.getLong("idpessoa"));
 			pessoa.setNome(rs.getString("nome"));
 			pessoa.setSenha(rs.getString("senha"));
+			pessoa.setEmail(rs.getString("email"));
+			pessoa.setTipopessoa(rs.getString("nome_tipo"));
 			pessoa.setTelefone(rs.getString("telefone"));
 			pessoa.setInadmin(rs.getBoolean("inadmin"));
 			pessoa.setCpf(rs.getString("cpf"));
@@ -182,7 +202,7 @@ public class Pessoa implements Crud {
 		params.put("ID", Long.toString(this.getIdpessoa()));
 		params.put("IDTIPO", Long.toString(this.getIdtipo_pessoa()));
 		params.put("ADMIN", Boolean.toString(this.isInadmin()));
-		
+
 		new Sql().query("UPDATE   `impacta`.`tb_autores` SET  `nome_autor` = :NOME WHERE idautor = :ID", params);
 
 	}
