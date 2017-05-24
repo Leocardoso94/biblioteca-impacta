@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import br.com.impacta.helpers.Validador;
 import br.com.impacta.sql.Sql;
 
 public class Pessoa implements Crud {
@@ -20,6 +21,7 @@ public class Pessoa implements Crud {
 	private long idpessoa;
 	private Calendar data_registro;
 	private int idtipo_pessoa;
+	private final Sql SQL = new Sql();
 	private Map<String, String> params = new HashMap<>();
 
 	public Calendar getData_registro() {
@@ -103,7 +105,7 @@ public class Pessoa implements Crud {
 	}
 
 	@Override
-	public void insert() throws ClassNotFoundException, SQLException {
+	public void insert() throws SQLException {
 		params.clear();
 		params.put("TIPO", Long.toString(this.getIdtipo_pessoa()));
 		params.put("NOME", this.getNome());
@@ -112,87 +114,78 @@ public class Pessoa implements Crud {
 		params.put("TEL", this.getTelefone());
 		params.put("ADMIN", this.isInadmin() ? "1" : "0");
 		params.put("CPF", this.getCpf());
-		new Sql()
-				.query("INSERT INTO `impacta`.`tb_pessoas` (  `idtipo_pessoa`, `nome`, `email`, `senha`, `telefone`, `inadmin`, `cpf` ) VALUES "
-						+ "(:TIPO , :NOME , :EMAIL , :SENHA , :TEL , :ADMIN , :CPF )", params);
+		SQL.query(
+				"INSERT INTO `impacta`.`tb_pessoas` (  `idtipo_pessoa`, `nome`, `email`, `senha`, `telefone`, `inadmin`, `cpf` ) VALUES "
+						+ "(:TIPO , :NOME , :EMAIL , :SENHA , :TEL , :ADMIN , :CPF )",
+				params);
 
 	}
 
 	@Override
-	public void delete() throws ClassNotFoundException, SQLException {
+	public void delete() throws SQLException {
 		params.clear();
 		params.put("ID", Long.toString(this.getIdpessoa()));
-		new Sql().query("DELETE FROM  `impacta`.`tb_pessoas` WHERE `idpessoa` = :ID", params);
+		if (Validador.deletar("SELECT * FROM `tb_emprestimos` WHERE idpessoa = :ID", params)) {
+			SQL.query("DELETE FROM  `impacta`.`tb_pessoas` WHERE `idpessoa` = :ID", params);
+		}
 	}
 
 	@Override
-	public void loadById() throws ClassNotFoundException, SQLException {
+	public void loadById() throws SQLException {
 		params.clear();
 		params.put("ID", Long.toString(this.getIdpessoa()));
-		ResultSet rs = new Sql().select("SELECT * FROM tb_pessoas where idpessoa = :ID", params);
-
-		this.setData(rs);
+		ResultSet rs = SQL.select(
+				"SELECT * FROM `tb_pessoas` a, tb_tipo_pessoa b where a.idtipo_pessoa = b.idtipo_pessoa AND idpessoa = :ID",
+				params);
+		rs.next();
+		this.setData(this, rs);
 	}
 
-	public boolean login() throws ClassNotFoundException, SQLException {
+	public boolean login() throws SQLException {
 		params.clear();
 		params.put("ID", Long.toString(getIdpessoa()));
 		params.put("SENHA", getSenha());
-		ResultSet rs = new Sql().select("SELECT * FROM `tb_pessoas` WHERE idpessoa = :ID AND senha = :SENHA", params);
+		ResultSet rs = SQL.select("SELECT * FROM `tb_pessoas` WHERE idpessoa = :ID AND senha = :SENHA", params);
 		return rs.next();
 	}
 
-	public boolean loginAdmin() throws ClassNotFoundException, SQLException {
+	public boolean loginAdmin() throws SQLException {
 		params.clear();
 		params.put("ID", Long.toString(getIdpessoa()));
 		params.put("SENHA", getSenha());
-		ResultSet rs = new Sql()
+		ResultSet rs = SQL
 				.select("SELECT * FROM `tb_pessoas` WHERE idpessoa = :ID AND senha = :SENHA AND `inadmin` = 1", params);
 		return rs.next();
 	}
 
-	@Override
-	public void setData(ResultSet rs) throws SQLException {
-		while (rs.next()) {
-			this.setIdtipo_pessoa(rs.getInt("idtipo_pessoa"));
-			this.setIdpessoa(rs.getLong("idpessoa"));
-			this.setNome(rs.getString("nome"));
-			this.setSenha(rs.getString("senha"));
-			this.setTelefone(rs.getString("telefone"));
-			this.setInadmin(rs.getBoolean("inadmin"));
-			this.setEmail(rs.getString("email"));
-			this.setCpf(rs.getString("cpf"));
-			Calendar data = Calendar.getInstance();
-			data.setTime(rs.getDate("data_registro"));
-			this.setData_registro(data);
-		}
-
+	public void setData(Pessoa pessoa, ResultSet rs) throws SQLException {
+		pessoa.setIdtipo_pessoa(rs.getInt("idtipo_pessoa"));
+		pessoa.setTipopessoa(rs.getString("nome_tipo"));
+		pessoa.setIdpessoa(rs.getLong("idpessoa"));
+		pessoa.setNome(rs.getString("nome"));
+		pessoa.setSenha(rs.getString("senha"));
+		pessoa.setTelefone(rs.getString("telefone"));
+		pessoa.setInadmin(rs.getBoolean("inadmin"));
+		pessoa.setEmail(rs.getString("email"));
+		pessoa.setCpf(rs.getString("cpf"));
+		Calendar data = Calendar.getInstance();
+		data.setTime(rs.getDate("data_registro"));
+		pessoa.setData_registro(data);
 	}
 
-	public ArrayList<Pessoa> getList() throws ClassNotFoundException, SQLException {
+	public ArrayList<Pessoa> getList() throws SQLException {
 		ArrayList<Pessoa> pessoas = new ArrayList<>();
-		ResultSet rs = new Sql()
+		ResultSet rs = SQL
 				.select("SELECT * FROM `tb_pessoas` a, tb_tipo_pessoa b where a.idtipo_pessoa = b.idtipo_pessoa", null);
 		while (rs.next()) {
 			Pessoa pessoa = new Pessoa();
-			pessoa.setIdtipo_pessoa(rs.getInt("idtipo_pessoa"));
-			pessoa.setIdpessoa(rs.getLong("idpessoa"));
-			pessoa.setNome(rs.getString("nome"));
-			pessoa.setSenha(rs.getString("senha"));
-			pessoa.setEmail(rs.getString("email"));
-			pessoa.setTipopessoa(rs.getString("nome_tipo"));
-			pessoa.setTelefone(rs.getString("telefone"));
-			pessoa.setInadmin(rs.getBoolean("inadmin"));
-			pessoa.setCpf(rs.getString("cpf"));
-			Calendar data = Calendar.getInstance();
-			data.setTime(rs.getDate("data_registro"));
-			pessoa.setData_registro(data);
+			pessoa.setData(pessoa, rs);
 			pessoas.add(pessoa);
 		}
 		return pessoas;
 	}
 
-	public static int count() throws ClassNotFoundException, SQLException {
+	public static int count() throws SQLException {
 		ResultSet rs = new Sql().select("SELECT COUNT(`idpessoa`) FROM `tb_pessoas`", null);
 		int rows = 0;
 		if (rs.last()) {
@@ -202,7 +195,7 @@ public class Pessoa implements Crud {
 		return rows;
 	}
 
-	public void update() throws ClassNotFoundException, SQLException {
+	public void update() throws SQLException {
 		params.clear();
 		params.put("CPF", this.getCpf());
 		params.put("EMAIL", this.getEmail());
@@ -213,7 +206,7 @@ public class Pessoa implements Crud {
 		params.put("IDTIPO", Long.toString(this.getIdtipo_pessoa()));
 		params.put("ADMIN", this.isInadmin() ? "1" : "0");
 
-		new Sql().query("UPDATE `impacta`.`tb_pessoas` SET " + "`idtipo_pessoa` = :IDTIPO , " + "`nome` = :NOME , "
+		SQL.query("UPDATE `impacta`.`tb_pessoas` SET " + "`idtipo_pessoa` = :IDTIPO , " + "`nome` = :NOME , "
 				+ "`email` = :EMAIL , " + "`senha` = :SENHA , " + "`telefone` = :TELEFONE, " + "`inadmin` = :ADMIN, "
 				+ "`cpf` = :CPF " + "WHERE `idpessoa` = :ID", params);
 

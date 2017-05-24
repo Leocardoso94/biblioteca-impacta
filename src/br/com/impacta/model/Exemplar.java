@@ -2,19 +2,23 @@ package br.com.impacta.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import br.com.impacta.helpers.Validador;
 import br.com.impacta.sql.Sql;
 
 public class Exemplar implements Crud {
 	private long num_exemplar;
 	private long idobra;
 	private boolean emprestado;
-	private Calendar data_aquisicao;
+	private String nomeobra;
+	private Date data_aquisicao;
 	private Map<String, String> params = new HashMap<>();
+	private Sql SQL = new Sql();
 
 	public long getNum_exemplar() {
 		return num_exemplar;
@@ -40,67 +44,67 @@ public class Exemplar implements Crud {
 		this.emprestado = emprestado;
 	}
 
-	public Calendar getData_aquisicao() {
+	public Date getData_aquisicao() {
 		return data_aquisicao;
 	}
 
-	public void setData_aquisicao(Calendar data_aquisicao) {
+	public void setData_aquisicao(Date data_aquisicao) {
 		this.data_aquisicao = data_aquisicao;
 	}
 
-	public void insert() throws ClassNotFoundException, SQLException {
+	public void insert() throws SQLException {
 		params.clear();
-		params.put("ID", Long.toString(getNum_exemplar()));
-		this.setData(new Sql().select("CALL sp_exemplar_insert( :ID )", params));
+		params.put("NUM", Long.toString(getNum_exemplar()));
+		params.put("ID", Long.toString(getIdobra()));
+		params.put("DATA_AQUISICAO", new SimpleDateFormat("yyyy/MM/dd").format(this.getData_aquisicao()));
+		SQL.query("INSERT INTO `impacta`.`tb_exemplares` (  `num_exemplar`,  `idobra`,  `data_aquisicao`) "
+				+ "VALUES  ( :NUM , :ID ,  :DATA_AQUISICAO  )", params);
 
 	}
 
-	public void delete() throws ClassNotFoundException, SQLException {
+	public void delete() throws SQLException {
 		this.params.clear();
 		params.put("ID", Long.toString(getNum_exemplar()));
-		new Sql().query("DELETE FROM tb_exemplares WHERE idexemplar = :ID", params);
+		if (Validador.deletar("SELECT * FROM `tb_emprestimos` WHERE num_exemplar = :ID ", params)) {
+			SQL.query("DELETE FROM tb_exemplares WHERE num_exemplar = :ID", params);
+		}
 		this.setNum_exemplar(0);
 		this.setData_aquisicao(null);
 		this.setEmprestado(false);
 		this.setIdobra(0);
 	}
 
-	public void loadById() throws ClassNotFoundException, SQLException {
+	public void loadById() throws SQLException {
 		this.params.clear();
 		params.put("ID", Long.toString(getNum_exemplar()));
-		this.setData(new Sql().select("SELECT FROM tb_exemplares WHERE idexemplar = :ID", params));
+		ResultSet rs = SQL.select("SELECT * FROM tb_exemplares WHERE num_exemplar = :ID ", params);
+		rs.next();
+		this.setData(this, rs);
 
 	}
 
-	public void setData(ResultSet rs) throws SQLException {
-		while (rs.next()) {
-			this.setNum_exemplar(rs.getInt("idexemplar"));
-			Calendar data = Calendar.getInstance();
-			data.setTime(rs.getDate("data_aquisicao"));
-			this.setData_aquisicao(data);
-			this.setNum_exemplar(rs.getLong("num_exemplar"));
-			this.setIdobra(rs.getLong("idobra"));
-			this.setEmprestado(rs.getBoolean("emprestado"));
-		}
+	public void setData(Exemplar exemplar, ResultSet rs) throws SQLException {
+		exemplar.setData_aquisicao(rs.getDate("data_aquisicao"));
+		exemplar.setNum_exemplar(rs.getLong("num_exemplar"));
+		exemplar.setIdobra(rs.getLong("idobra"));
+		exemplar.setEmprestado(rs.getBoolean("emprestado"));
+		Obra obra = new Obra();
+		obra.setIdobra(exemplar.getIdobra());
+		obra.loadById();
+		exemplar.setNomeobra(obra.getTitulo());
 	}
 
-	public static ArrayList<Exemplar> getList() throws ClassNotFoundException, SQLException {
+	public ArrayList<Exemplar> getList() throws ClassNotFoundException, SQLException {
 		ArrayList<Exemplar> exemplares = new ArrayList<>();
-		ResultSet rs = new Sql().select("SELECT * FROM tb_exemplares ORDER BY num_exemplar", null);
+		ResultSet rs = SQL.select("SELECT * FROM tb_exemplares ORDER BY num_exemplar", null);
 		while (rs.next()) {
 			Exemplar exemplar = new Exemplar();
-			exemplar.setNum_exemplar(rs.getInt("idexemplar"));
-			Calendar data = Calendar.getInstance();
-			data.setTime(rs.getDate("data_aquisicao"));
-			exemplar.setData_aquisicao(data);
-			exemplar.setNum_exemplar(rs.getLong("num_exemplar"));
-			exemplar.setIdobra(rs.getLong("idobra"));
-			exemplar.setEmprestado(rs.getBoolean("emprestado"));
+			exemplar.setData(exemplar, rs);
 			exemplares.add(exemplar);
 		}
 		return exemplares;
 	}
-	
+
 	public static int count() throws ClassNotFoundException, SQLException {
 		ResultSet rs = new Sql().select("SELECT COUNT(`num_exemplar`) FROM `tb_exemplares`", null);
 		int rows = 0;
@@ -112,8 +116,22 @@ public class Exemplar implements Crud {
 	}
 
 	@Override
-	public void update() throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
-		
+	public void update() throws SQLException {
+		params.clear();
+		params.put("NUM", Long.toString(getNum_exemplar()));
+		params.put("ID", Long.toString(getIdobra()));
+		params.put("DATA_AQUISICAO", new SimpleDateFormat("yyyy/MM/dd").format(this.getData_aquisicao()));
+		SQL.query(
+				"UPDATE `impacta`.`tb_exemplares` SET  `idobra` = :ID ,  `data_aquisicao` = :DATA_AQUISICAO WHERE num_exemplar = :NUM",
+				params);
 	}
+
+	public String getNomeobra() {
+		return nomeobra;
+	}
+
+	public void setNomeobra(String nomeobra) {
+		this.nomeobra = nomeobra;
+	}
+
 }

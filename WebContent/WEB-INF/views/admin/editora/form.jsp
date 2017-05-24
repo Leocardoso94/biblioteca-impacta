@@ -18,7 +18,7 @@
 					<form action="buscaEditora" method="get" class="">
 						<div class="input-group">
 							<input type="text" name="search" class="form-control"
-								placeholder="Buscar..."> <span class="input-group-btn">
+								placeholder="Buscar pelo nome da editora..."> <span class="input-group-btn">
 								<button type="submit" id="search-btn"
 									class="btn btn-flat">
 									<i class="fa fa-search"></i>
@@ -106,6 +106,7 @@
 													<div class="form-group">
 														<p>Tem certeza que deseja excluir <b>
 															${editora.nome_editora}?</b></p>
+															<h6>Caso a editora não seja deletada é necessário deletar as obras que estão vinculadas a ela</h6>
 														<div class="col-sm-12">
 															<input type="hidden" name="ideditora"
 																value="${editora.ideditora}" readonly> <input

@@ -191,6 +191,8 @@
 														<p>
 															Tem certeza que deseja excluir <b> ${pessoa.nome}?</b>
 														</p>
+														<h6>Caso o usuário não seja deletado é necessário
+															finalizar os empréstimos que estão vinculados a ele</h6>
 														<div class="col-sm-12">
 															<input type="hidden" name="idpessoa"
 																value="${pessoa.idpessoa}" readonly> <input

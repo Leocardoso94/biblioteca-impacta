@@ -39,8 +39,7 @@ public class EditoraController {
 		ArrayList<Editora> editoras = new ArrayList<>();
 		while (rs.next()) {			
 			Editora editora = new Editora();
-			editora.setIdeditora(rs.getLong("ideditora"));
-			editora.setNome_editora(rs.getString("nome_editora"));
+			editora.setData(editora, rs);
 			editoras.add(editora);
 		}
 		model.addAttribute("editoras",editoras);

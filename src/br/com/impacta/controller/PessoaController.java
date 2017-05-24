@@ -36,17 +36,18 @@ public class PessoaController {
 		return "redirect:pessoa";
 	}
 
-	@RequestMapping("admin/buscarPessoa")
-	public String buscarPessoa(HttpServletRequest request, Model model) throws ClassNotFoundException, SQLException {
+	@RequestMapping("admin/buscaPessoa")
+	public String buscaPessoa(HttpServletRequest request, Model model) throws ClassNotFoundException, SQLException {
 		HashMap<String, String> params = new HashMap<>();
 		String busca = "%" + request.getParameter("search") + "%";
 		params.put("BUSCA", busca);
-		ResultSet rs = new Sql().select("SELECT * From tb_pessoas WHERE nome_pessoa LIKE :BUSCA", params);
+		ResultSet rs = new Sql().select(
+				"SELECT * FROM `tb_pessoas` a INNER JOIN `tb_tipo_pessoa` b ON a.idtipo_pessoa = b.idtipo_pessoa WHERE idpessoa LIKE :BUSCA OR `nome` LIKE :BUSCA OR `email` LIKE :BUSCA OR `telefone` LIKE :BUSCA OR `cpf` LIKE :BUSCA OR `nome_tipo` LIKE :BUSCA ",
+				params);
 		ArrayList<Pessoa> pessoas = new ArrayList<>();
 		while (rs.next()) {
 			Pessoa pessoa = new Pessoa();
-			pessoa.setIdpessoa(rs.getLong("idpessoa"));
-			pessoa.setNome(rs.getString("nome"));
+			pessoa.setData(pessoa, rs);
 			pessoas.add(pessoa);
 		}
 		model.addAttribute("pessoas", pessoas);

@@ -18,7 +18,7 @@
 					<form action="buscarAutor" method="get" class="">
 						<div class="input-group">
 							<input type="text" name="search" class="form-control"
-								placeholder="Buscar..."> <span class="input-group-btn">
+								placeholder="Buscar pelo nome do autor..."> <span class="input-group-btn">
 								<button type="submit" id="search-btn"
 									class="btn btn-flat">
 									<i class="fa fa-search"></i>
@@ -107,6 +107,7 @@
 														<p>
 															Tem certeza que deseja excluir <b>${autor.nome_autor}</b>?
 														</p>
+														<h6>Caso o autor não seja deletado é necessário deletar as obras que estão vinculadas a ele</h6>
 														<div class="col-sm-12">
 															<input type="hidden" name="idautor"
 																value="${autor.idautor}" readonly> <input

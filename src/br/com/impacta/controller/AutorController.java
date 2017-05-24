@@ -50,8 +50,7 @@ public class AutorController {
 		ArrayList<Autor> autores = new ArrayList<>();
 		while (rs.next()) {			
 			Autor autor = new Autor();
-			autor.setIdautor(rs.getLong("idautor"));
-			autor.setNome_autor(rs.getString("nome_autor"));
+			autor.setData(autor, rs);
 			autores.add(autor);
 		}
 		model.addAttribute("autores",autores);

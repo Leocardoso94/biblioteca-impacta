@@ -13,9 +13,19 @@ public class Sql {
 	private final String DBNAME = "impacta";
 	private Connection conn;
 
-	public Sql() throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.jdbc.Driver");
-		this.conn = DriverManager.getConnection("jdbc:mysql://" + HOSTNAME + "/" + DBNAME, USERNAME, PASSWORD);
+	public Sql()  {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			this.conn = DriverManager.getConnection("jdbc:mysql://" + HOSTNAME + "/" + DBNAME, USERNAME, PASSWORD);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
