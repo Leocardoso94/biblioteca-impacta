@@ -72,7 +72,7 @@ public class Assunto implements Crud {
 
 	public ArrayList<Assunto> getList() throws ClassNotFoundException, SQLException {
 		ArrayList<Assunto> assuntos = new ArrayList<>();
-		ResultSet rs = SQL.select("SELECT * FROM tb_assuntos ORDER BY idassunto DESC", null);
+		ResultSet rs = SQL.select("SELECT * FROM tb_assuntos ORDER BY nome_assunto", null);
 		while (rs.next()) {
 			Assunto assunto = new Assunto();
 			assunto.setData(assunto, rs);

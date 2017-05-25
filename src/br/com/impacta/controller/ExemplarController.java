@@ -3,12 +3,11 @@ package br.com.impacta.controller;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import br.com.impacta.helpers.FormatarDatas;
 import br.com.impacta.model.Exemplar;
 import br.com.impacta.model.Obra;
+import br.com.impacta.model.Pessoa;
 import br.com.impacta.sql.Sql;
 
 @Controller
@@ -24,7 +24,10 @@ public class ExemplarController {
 	private String erroExemplarExiste;
 
 	@RequestMapping("admin/exemplar")
-	public String carregar(Model model) throws ClassNotFoundException, SQLException {
+	public String carregar(Model model, HttpSession session) throws ClassNotFoundException, SQLException {
+		Pessoa pessoa = (Pessoa) session.getAttribute("usuarioLogado");
+		pessoa.loadById();
+		model.addAttribute("pessoa", pessoa);
 		model.addAttribute("exemplares", new Exemplar().getList());
 		if (erroExemplarExiste != null) {
 			model.addAttribute("erroExemplarExiste", erroExemplarExiste);

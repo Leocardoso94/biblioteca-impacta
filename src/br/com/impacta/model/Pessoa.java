@@ -176,7 +176,7 @@ public class Pessoa implements Crud {
 	public ArrayList<Pessoa> getList() throws SQLException {
 		ArrayList<Pessoa> pessoas = new ArrayList<>();
 		ResultSet rs = SQL
-				.select("SELECT * FROM `tb_pessoas` a, tb_tipo_pessoa b where a.idtipo_pessoa = b.idtipo_pessoa", null);
+				.select("SELECT * FROM `tb_pessoas` a, tb_tipo_pessoa b where a.idtipo_pessoa = b.idtipo_pessoa order by nome", null);
 		while (rs.next()) {
 			Pessoa pessoa = new Pessoa();
 			pessoa.setData(pessoa, rs);

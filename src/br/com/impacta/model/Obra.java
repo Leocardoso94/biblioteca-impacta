@@ -128,7 +128,7 @@ public class Obra implements Crud {
 
 	public ArrayList<Obra> getList() throws ClassNotFoundException, SQLException {
 		ArrayList<Obra> obras = new ArrayList<>();
-		ResultSet rs = SQL.select("SELECT * FROM tb_obras ORDER BY idassunto DESC", null);
+		ResultSet rs = SQL.select("SELECT * FROM tb_obras ORDER BY titulo", null);
 		while (rs.next()) {
 			Obra obra = new Obra();
 			obra.setData(obra, rs);

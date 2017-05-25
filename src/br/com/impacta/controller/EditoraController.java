@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 import br.com.impacta.model.Editora;
+import br.com.impacta.model.Pessoa;
 import br.com.impacta.sql.Sql;
 
 @Controller
@@ -21,7 +23,10 @@ public class EditoraController {
 	private String erroEditoraExiste;
 
 	@RequestMapping("admin/editora")
-	public String carregar(Model model) throws ClassNotFoundException, SQLException {
+	public String carregar(Model model,HttpSession session) throws ClassNotFoundException, SQLException {
+		Pessoa pessoa = (Pessoa) session.getAttribute("usuarioLogado");
+		pessoa.loadById();
+		model.addAttribute("pessoa", pessoa);
 		model.addAttribute("editoras", new Editora().getList());
 		if (erroEditoraExiste != null) {
 			model.addAttribute("erroEditoraExiste", erroEditoraExiste);

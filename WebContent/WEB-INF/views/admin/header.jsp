@@ -19,8 +19,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <link rel="stylesheet"
 	href="${adminPath}/bootstrap/css/bootstrap.min.css">
 <!-- Font Awesome -->
-<link rel="stylesheet"
-	href="${cssPath}/font-awesome.min.css">
+<link rel="stylesheet" href="${cssPath}/font-awesome.min.css">
+<!-- Style -->
+<link rel="stylesheet" href="${cssPath}/style.css">
 <!-- Ionicons -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">

@@ -1,3 +1,3 @@
-input.form-control {
-    border-radius: 10px !important;
+ul.pagination.pagination-sm.no-margin.pull-right {
+	display: none !important;
 }

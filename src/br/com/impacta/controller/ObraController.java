@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,7 @@ import br.com.impacta.model.Assunto;
 import br.com.impacta.model.Autor;
 import br.com.impacta.model.Editora;
 import br.com.impacta.model.Obra;
+import br.com.impacta.model.Pessoa;
 import br.com.impacta.sql.Sql;
 
 @Controller
@@ -24,7 +26,10 @@ public class ObraController {
 	private String erroObraExiste;
 
 	@RequestMapping("admin/obra")
-	public String carregar(Model model) throws ClassNotFoundException, SQLException {
+	public String carregar(Model model, HttpSession session) throws ClassNotFoundException, SQLException {
+		Pessoa pessoa = (Pessoa) session.getAttribute("usuarioLogado");
+		pessoa.loadById();
+		model.addAttribute("pessoa", pessoa);
 		model.addAttribute("obras", new Obra().getList());
 		if (erroObraExiste != null) {
 			model.addAttribute("erroObraExiste", erroObraExiste);
@@ -50,7 +55,7 @@ public class ObraController {
 		String busca = "%" + request.getParameter("search") + "%";
 		params.put("BUSCA", busca);
 		ResultSet rs = new Sql().select(
-				"SELECT * FROM `tb_obras` a INNER JOIN `tb_tipo_obra` b ON a.idtipo_obra = b.idtipo_obra WHERE idobra LIKE :BUSCA OR `nome` LIKE :BUSCA OR `email` LIKE :BUSCA OR `telefone` LIKE :BUSCA OR `cpf` LIKE :BUSCA OR `nome_tipo` LIKE :BUSCA ",
+				"SELECT * FROM tb_obras tbo INNER JOIN tb_assuntos tba ON tba.`idassunto` = tbo.`idassunto` INNER JOIN tb_autores tbat ON tbat.`idautor` = tbo.`idautor` INNER JOIN tb_editoras tbe ON tbe.`ideditora` = tbo.`ideditora` WHERE tbo.`titulo` LIKE :BUSCA OR tba.`nome_assunto` LIKE :BUSCA OR tbat.`nome_autor` LIKE :BUSCA OR tbe.`nome_editora` LIKE :BUSCA OR tbo.`ano_publicacao` LIKE :BUSCA OR tbo.`idobra` LIKE :BUSCA",
 				params);
 		ArrayList<Obra> obras = new ArrayList<>();
 		while (rs.next()) {

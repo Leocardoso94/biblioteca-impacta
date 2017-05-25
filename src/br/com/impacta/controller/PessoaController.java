@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +21,10 @@ public class PessoaController {
 	private String erroPessoaExiste;
 
 	@RequestMapping("admin/pessoa")
-	public String carregar(Model model) throws ClassNotFoundException, SQLException {
+	public String carregar(Model model,HttpSession session) throws ClassNotFoundException, SQLException {
+		Pessoa pessoa = (Pessoa) session.getAttribute("usuarioLogado");
+		pessoa.loadById();
+		model.addAttribute("pessoa", pessoa);
 		model.addAttribute("pessoas", new Pessoa().getList());
 		if (erroPessoaExiste != null) {
 			model.addAttribute("erroPessoaExiste", erroPessoaExiste);

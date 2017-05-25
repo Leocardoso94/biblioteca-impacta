@@ -83,7 +83,7 @@ public class Autor implements Crud {
 	public ArrayList<Autor> getList() throws ClassNotFoundException, SQLException {
 
 		ArrayList<Autor> autores = new ArrayList<>();
-		ResultSet rs = SQL.select("SELECT * FROM tb_autores ORDER BY idautor DESC", null);
+		ResultSet rs = SQL.select("SELECT * FROM tb_autores ORDER BY nome_autor", null);
 		while (rs.next()) {
 			Autor autor = new Autor();
 			autor.setData(autor, rs);

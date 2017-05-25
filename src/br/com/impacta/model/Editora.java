@@ -72,7 +72,7 @@ public class Editora implements Crud {
 
 	public ArrayList<Editora> getList() throws ClassNotFoundException, SQLException {
 		ArrayList<Editora> editoras = new ArrayList<>();
-		ResultSet rs = SQL.select("SELECT * FROM tb_editoras ORDER BY ideditora DESC", null);
+		ResultSet rs = SQL.select("SELECT * FROM tb_editoras ORDER BY nome_editora", null);
 		while (rs.next()) {
 			Editora editora = new Editora();
 			editora.setData(editora, rs);
