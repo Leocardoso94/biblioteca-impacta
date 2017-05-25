@@ -8,7 +8,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>BibliotecaFIT | Home</title>
+<title>BibliotecaFIT</title>
 <c:url value="/resources/admin" var="adminPath" />
 <c:url value="/resources/css" var="cssPath" />
 <!-- Tell the browser to be responsive to screen width -->

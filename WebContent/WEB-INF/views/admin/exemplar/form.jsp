@@ -142,7 +142,7 @@
 																${exemplar.nomeobra}?</b>
 														</p>
 														<h6>Caso o exemplar não seja deletado é necessário
-															deletar as obras que estão vinculadas a ele</h6>
+															finalizar os empréstimos vinculados a ele</h6>
 														<div class="col-sm-12">
 															<input type="hidden" name="num_exemplar"
 																value="${exemplar.num_exemplar}" readonly> <input

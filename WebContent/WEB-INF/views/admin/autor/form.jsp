@@ -34,6 +34,7 @@
 						<tr>
 							<th style="width: 10px">#</th>
 							<th>Nome</th>
+							<th>Número de Obras</th>
 							<th>Alterar</th>
 							<th>Excluir</th>
 						</tr>
@@ -41,6 +42,7 @@
 							<tr>
 								<td>${autor.idautor}.</td>
 								<td>${autor.nome_autor}</td>
+								<td>${autor.contagemDeObrasPorAutor()}</td>
 								<td><button class="btn btn-warning" data-toggle="modal"
 										data-target="#modal${autor.idautor}">
 										<i class="fa fa-pencil" aria-hidden="true"></i>

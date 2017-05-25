@@ -26,4 +26,7 @@
       <servlet-name>Spring MVC Dispatcher Servlet</servlet-name>
       <url-pattern>/</url-pattern>
 </servlet-mapping>
+<error-page>
+    <location>/errors</location>
+</error-page>
 </web-app>

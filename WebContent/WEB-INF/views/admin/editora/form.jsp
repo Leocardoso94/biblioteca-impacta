@@ -33,6 +33,7 @@
 						<tr>
 							<th style="width: 10px">#</th>
 							<th>Nome</th>
+							<th>Número de Obras</th>
 							<th>Alterar</th>
 							<th>Excluir</th>
 						</tr>
@@ -40,6 +41,7 @@
 							<tr>
 								<td>${editora.ideditora}.</td>
 								<td>${editora.nome_editora}</td>
+								<td>${editora.contagemDeObrasPorEditora()}</td>
 								<td><button class="btn btn-warning" data-toggle="modal"
 										data-target="#modal${editora.ideditora}">
 										<i class="fa fa-pencil" aria-hidden="true"></i>

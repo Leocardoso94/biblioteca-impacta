@@ -81,6 +81,17 @@ public class Assunto implements Crud {
 		return assuntos;
 	}
 
+	public int contagemDeObrasPorAssunto() throws SQLException {
+		params.clear();
+		params.put("ID", Integer.toString(this.getIdassunto()));
+		ResultSet rs = SQL.select("SELECT COUNT(*) FROM tb_obras WHERE `idassunto` = :ID", params);
+		int rows = 0;
+		if (rs.last()) {
+			rows = rs.getInt(1);
+		}
+		return rows;
+	}
+
 	@Override
 	public void update() throws SQLException {
 		params.clear();
@@ -89,4 +100,5 @@ public class Assunto implements Crud {
 		SQL.query("UPDATE tb_assuntos SET nome_assunto = :NOME WHERE idassunto = :ID", params);
 
 	}
+
 }

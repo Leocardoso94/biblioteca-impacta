@@ -3,6 +3,7 @@ package br.com.impacta.model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
+import java.util.Date;
 
 import br.com.impacta.sql.Sql;
 
@@ -10,9 +11,9 @@ public class Emprestimo {
 	private long idemprestimo;
 	private long idpessoa;
 	private long num_exemplar;
-	private Calendar data_emprestimo;
-	private Calendar data_prevista_retorno;
-
+	private Date data_emprestimo;
+	private Date data_prevista_retorno;
+	private boolean finalizado;
 	public long getIdemprestimo() {
 		return idemprestimo;
 	}
@@ -37,19 +38,19 @@ public class Emprestimo {
 		this.num_exemplar = num_exemplar;
 	}
 
-	public Calendar getData_emprestimo() {
+	public Date getData_emprestimo() {
 		return data_emprestimo;
 	}
 
-	public void setData_emprestimo(Calendar data_emprestimo) {
+	public void setData_emprestimo(Date data_emprestimo) {
 		this.data_emprestimo = data_emprestimo;
 	}
 
-	public Calendar getData_prevista_retorno() {
+	public Date getData_prevista_retorno() {
 		return data_prevista_retorno;
 	}
 
-	public void setData_prevista_retorno(Calendar data_prevista_retorno) {
+	public void setData_prevista_retorno(Date data_prevista_retorno) {
 		this.data_prevista_retorno = data_prevista_retorno;
 	}
 
@@ -61,6 +62,14 @@ public class Emprestimo {
 		}
 
 		return rows;
+	}
+
+	public boolean isFinalizado() {
+		return finalizado;
+	}
+
+	public void setFinalizado(boolean finalizado) {
+		this.finalizado = finalizado;
 	}
 
 }

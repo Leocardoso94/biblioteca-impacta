@@ -42,6 +42,7 @@
 							<th>CPF</th>
 							<th>Administrador</th>
 							<th>Tipo de Pessoa</th>
+							<th>Empréstimos</th>
 							<th>Alterar</th>
 							<th>Excluir</th>
 						</tr>
@@ -61,6 +62,7 @@
 									</c:otherwise>
 								</c:choose>
 								<td>${pessoa.tipopessoa}</td>
+								<td>${pessoa.contagemDeEmprestimosPorPessoa()}</td>
 								<td><button class="btn btn-warning" data-toggle="modal"
 										data-target="#modal${pessoa.idpessoa}">
 										<i class="fa fa-pencil" aria-hidden="true"></i>

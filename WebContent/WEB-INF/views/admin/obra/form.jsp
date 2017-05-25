@@ -41,6 +41,7 @@
 							<th>Editora</th>
 							<th>Assunto</th>
 							<th>Ano de Publicação</th>
+							<th>Exemplares</th>
 							<th>Alterar</th>
 							<th>Excluir</th>
 						</tr>
@@ -53,6 +54,7 @@
 								<td>${obra.assunto}</td>
 								<td><fmt:formatDate pattern="yyyy"
 										value="${obra.ano_publicacao}" /></td>
+								<td>${obra.contagemDeExemplaresPorObras()}</td>
 								<td><button class="btn btn-warning" data-toggle="modal"
 										data-target="#modal${obra.idobra}">
 										<i class="fa fa-pencil" aria-hidden="true"></i>
@@ -172,7 +174,7 @@
 															Tem certeza que deseja excluir <b>${obra.titulo} ?</b>
 														</p>
 														<h6>Caso a obra não seja deletada é necessário
-															finalizar os empréstimos que estão vinculados a ela</h6>
+															deletar os exemplares vinculadas a ela</h6>
 														<div class="col-sm-12">
 															<input type="hidden" name="idobra" value="${obra.idobra}"
 																readonly>

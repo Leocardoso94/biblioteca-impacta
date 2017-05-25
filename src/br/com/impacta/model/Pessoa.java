@@ -211,5 +211,16 @@ public class Pessoa implements Crud {
 				+ "`cpf` = :CPF " + "WHERE `idpessoa` = :ID", params);
 
 	}
+	
+	public int contagemDeEmprestimosPorPessoa() throws SQLException {
+		params.clear();
+		params.put("ID", Long.toString(this.getIdpessoa()));
+		ResultSet rs = SQL.select("SELECT COUNT(*) FROM tb_emprestimos WHERE `idpessoa` = :ID and finalizado = 0", params);
+		int rows = 0;
+		if (rs.last()) {
+			rows = rs.getInt(1);
+		}
+		return rows;
+	}
 
 }

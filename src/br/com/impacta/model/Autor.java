@@ -98,5 +98,16 @@ public class Autor implements Crud {
 		params.put("NOME", this.getNome_autor());
 		SQL.query("UPDATE   `impacta`.`tb_autores` SET  `nome_autor` = :NOME WHERE idautor = :ID", params);
 	}
+	
+	public int contagemDeObrasPorAutor() throws SQLException {
+		params.clear();
+		params.put("ID", Long.toString(this.getIdautor()));
+		ResultSet rs = SQL.select("SELECT COUNT(*) FROM tb_obras WHERE `idautor` = :ID", params);
+		int rows = 0;
+		if (rs.last()) {
+			rows = rs.getInt(1);
+		}
+		return rows;
+	}
 
 }

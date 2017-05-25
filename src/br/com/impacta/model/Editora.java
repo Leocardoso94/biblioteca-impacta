@@ -80,5 +80,16 @@ public class Editora implements Crud {
 		}
 		return editoras;
 	}
+	
+	public int contagemDeObrasPorEditora() throws SQLException {
+		params.clear();
+		params.put("ID", Long.toString(this.getIdeditora()));
+		ResultSet rs = SQL.select("SELECT COUNT(*) FROM tb_obras WHERE `ideditora` = :ID", params);
+		int rows = 0;
+		if (rs.last()) {
+			rows = rs.getInt(1);
+		}
+		return rows;
+	}
 
 }

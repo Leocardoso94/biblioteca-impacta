@@ -40,6 +40,7 @@ public class NamedParameterStatement {
 	/**
 	 * Maps parameter names to arrays of ints which are the parameter indices.
 	 */
+	@SuppressWarnings("rawtypes")
 	private final Map indexMap;
 
 	/**
@@ -53,6 +54,7 @@ public class NamedParameterStatement {
 	 * @throws SQLException
 	 *             if the statement could not be created
 	 */
+	@SuppressWarnings("rawtypes")
 	public NamedParameterStatement(Connection connection, String query) throws SQLException {
 		indexMap = new HashMap();
 		String parsedQuery = parse(query, indexMap);
@@ -70,6 +72,7 @@ public class NamedParameterStatement {
 	 *            map to hold parameter-index mappings
 	 * @return the parsed query
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	static final String parse(String query, Map paramMap) {
 		// I was originally using regular expressions, but they didn't work well
 		// for ignoring

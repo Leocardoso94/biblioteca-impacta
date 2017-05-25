@@ -28,7 +28,7 @@ public class DashBoardController extends WebMvcConfigurerAdapter {
 		pessoa.loadById();
 		model.addAttribute("pessoa", pessoa);
 		ResultSet rs = new Sql().select(
-				"SELECT c.`idemprestimo`, b.`titulo`, d.`nome`, CASE WHEN c.`data_prevista_retorno` > NOW() THEN 'Ok' ELSE 'Atraso'END AS atraso, c.`data_prevista_retorno` FROM `tb_exemplares` a, tb_obras b, `tb_emprestimos` c, `tb_pessoas` d WHERE 1 = 1 AND c.`num_exemplar` = a.`num_exemplar` AND c.`idpessoa` = d.`idpessoa` AND a.`idobra` = b.`idobra` ORDER BY c.`idemprestimo` DESC LIMIT 10 ;",
+				"SELECT c.`idemprestimo`, b.`titulo`, d.`nome`, CASE WHEN c.`data_prevista_retorno` > NOW() THEN 'Ok' ELSE 'Atraso'END AS atraso, c.`data_prevista_retorno` FROM `tb_exemplares` a, tb_obras b, `tb_emprestimos` c, `tb_pessoas` d WHERE finalizado = 0 AND c.`num_exemplar` = a.`num_exemplar` AND c.`idpessoa` = d.`idpessoa` AND a.`idobra` = b.`idobra` ORDER BY c.`idemprestimo` DESC LIMIT 10 ;",
 				null);
 		ArrayList<String[]> emprestimos = new ArrayList<>();
 		while (rs.next()) {
