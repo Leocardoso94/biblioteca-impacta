@@ -49,7 +49,7 @@ public class Autor implements Crud {
 	public void delete() throws SQLException {
 		params.clear();
 		params.put("ID", Long.toString(this.getIdautor()));
-		if(Validador.deletar("SELECT * FROM `tb_autores_obras` where idautor = :ID", params)){
+		if(Validador.deletar("SELECT * FROM `tb_obras` where idautor = :ID", params)){
 		SQL.query("DELETE FROM tb_autores where idautor = :ID", params);
 		}
 		this.setIdautor(0);

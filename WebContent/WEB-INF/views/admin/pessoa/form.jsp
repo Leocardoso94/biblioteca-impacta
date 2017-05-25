@@ -281,7 +281,8 @@
 												Pessoa</label>
 											<div class="col-sm-10">
 												<select id="inputTipo3" class="form-control"
-													name="idtipo_pessoa">
+													name="idtipo_pessoa" required>
+													<option></option>
 													<c:forEach items="${tiposPessoa}" var="entry">
 														<option value="${entry.key}">${entry.value}</option>
 													</c:forEach>

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import br.com.impacta.helpers.FormatarDatas;
 import br.com.impacta.model.Exemplar;
 import br.com.impacta.model.Obra;
 import br.com.impacta.sql.Sql;
@@ -53,16 +54,13 @@ public class ExemplarController {
 	@RequestMapping("admin/adicionarExemplar")
 	public String adicionarExemplar(Exemplar exemplar, HttpServletRequest req)
 			throws ClassNotFoundException, SQLException, ParseException {
-		String dataRecebida = req.getParameter("data");
-		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-		Date data = formato.parse(dataRecebida);
-		exemplar.setData_aquisicao(data);
+		exemplar.setData_aquisicao(FormatarDatas.formatar(req.getParameter("data"), "yyyy-MM-dd"));
 		exemplar.insert();
 		return "redirect:exemplar";
 	}
 
 	@RequestMapping("admin/excluirExemplar")
-	public String excluirExemplar(Exemplar exemplar) throws ClassNotFoundException, SQLException {		
+	public String excluirExemplar(Exemplar exemplar) throws ClassNotFoundException, SQLException {
 		exemplar.delete();
 		return "redirect:exemplar";
 	}
@@ -70,10 +68,7 @@ public class ExemplarController {
 	@RequestMapping("admin/alterarExemplar")
 	public String alterarExemplar(Exemplar exemplar, HttpServletRequest req)
 			throws ClassNotFoundException, SQLException, ParseException {
-		String dataRecebida = req.getParameter("data");
-		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-		Date data = formato.parse(dataRecebida);
-		exemplar.setData_aquisicao(data);
+		exemplar.setData_aquisicao(FormatarDatas.formatar(req.getParameter("data"), "yyyy-MM-dd"));
 		exemplar.update();
 		return "redirect:exemplar";
 	}

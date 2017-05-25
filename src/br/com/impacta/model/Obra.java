@@ -16,6 +16,8 @@ public class Obra implements Crud {
 	private int idassunto;
 	private String assunto;
 	private String titulo;
+	private long idautor;
+	private String autor;
 	private Date ano_publicacao;
 	private HashMap<String, String> params = new HashMap<>();
 
@@ -59,16 +61,24 @@ public class Obra implements Crud {
 		this.idassunto = idassunto;
 	}
 
-	public String getEditora() {
-		return editora;
+	public String getEditora() throws SQLException {
+		Editora editora = new Editora();
+		editora.setIdeditora(this.getIdeditora());
+		editora.loadById();
+		this.setEditora(editora.getNome_editora());
+		return this.editora;
 	}
 
 	public void setEditora(String editora) {
 		this.editora = editora;
 	}
 
-	public String getAssunto() {
-		return assunto;
+	public String getAssunto() throws SQLException {
+		Assunto assunto = new Assunto();
+		assunto.setIdassunto(this.getIdassunto());
+		assunto.loadById();
+		this.setAssunto(assunto.getNome_assunto());
+		return this.assunto;
 	}
 
 	public void setAssunto(String assunto) {
@@ -102,14 +112,7 @@ public class Obra implements Crud {
 		obra.setAno_publicacao(rs.getDate("ano_publicacao"));
 		obra.setIdeditora(rs.getLong("ideditora"));
 		obra.setIdobra(rs.getLong("idobra"));
-		Assunto assunto = new Assunto();
-		assunto.setIdassunto(obra.getIdassunto());
-		assunto.loadById();
-		obra.setAssunto(assunto.getNome_assunto());
-		Editora editora = new Editora();
-		editora.setIdeditora(obra.getIdeditora());
-		editora.loadById();
-		obra.setEditora(editora.getNome_editora());
+		obra.setIdautor(rs.getLong("idautor"));
 	}
 
 	public ArrayList<Obra> getList() throws ClassNotFoundException, SQLException {
@@ -130,5 +133,25 @@ public class Obra implements Crud {
 		params.put("TITULO", this.getTitulo());
 		SQL.query("UPDATE tb_obras SET nome_assunto = :NOME WHERE idassunto = :ID", params);
 
+	}
+
+	public String getAutor() throws SQLException {
+		Autor autor = new Autor();
+		autor.setIdautor(this.getIdautor());
+		autor.loadById();
+		this.setAutor(autor.getNome_autor());
+		return this.autor;
+	}
+
+	public void setAutor(String autor) {
+		this.autor = autor;
+	}
+
+	public long getIdautor() {
+		return idautor;
+	}
+
+	public void setIdautor(long l) {
+		this.idautor = l;
 	}
 }

@@ -25,7 +25,7 @@ CREATE TABLE `tb_assuntos` (
   `nome_assunto` varchar(64) NOT NULL,
   PRIMARY KEY (`idassunto`),
   UNIQUE KEY `nome_assunto` (`nome_assunto`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tb_assuntos` */
 
@@ -40,27 +40,11 @@ CREATE TABLE `tb_autores` (
   `nome_autor` varchar(64) NOT NULL,
   PRIMARY KEY (`idautor`),
   UNIQUE KEY `nome_autor` (`nome_autor`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tb_autores` */
 
 insert  into `tb_autores`(`idautor`,`nome_autor`) values (12,'Carlos'),(18,'Gustavo'),(9,'João Cardoso'),(1,'Leonardo Cardoso');
-
-/*Table structure for table `tb_autores_obras` */
-
-DROP TABLE IF EXISTS `tb_autores_obras`;
-
-CREATE TABLE `tb_autores_obras` (
-  `idautor` int(11) unsigned NOT NULL,
-  `idobra` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`idautor`,`idobra`),
-  KEY `tb_autor_has_tb_obra_FKIndex1` (`idautor`),
-  KEY `tb_autor_has_tb_obra_FKIndex2` (`idobra`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `tb_autores_obras` */
-
-insert  into `tb_autores_obras`(`idautor`,`idobra`) values (1,1),(1,2);
 
 /*Table structure for table `tb_devolucoes` */
 
@@ -85,7 +69,7 @@ CREATE TABLE `tb_editoras` (
   `nome_editora` varchar(64) NOT NULL,
   PRIMARY KEY (`ideditora`,`nome_editora`),
   UNIQUE KEY `nome_editora` (`nome_editora`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tb_editoras` */
 
@@ -121,11 +105,11 @@ CREATE TABLE `tb_exemplares` (
   `data_aquisicao` date NOT NULL,
   PRIMARY KEY (`num_exemplar`),
   KEY `tb_exemplar_FKIndex1` (`idobra`)
-) ENGINE=InnoDB AUTO_INCREMENT=1000000000 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tb_exemplares` */
 
-insert  into `tb_exemplares`(`num_exemplar`,`idobra`,`emprestado`,`data_aquisicao`) values (1,1,1,'2017-05-04'),(3,2,1,'2017-05-24');
+insert  into `tb_exemplares`(`num_exemplar`,`idobra`,`emprestado`,`data_aquisicao`) values (1,1,1,'2017-05-04'),(3,2,1,'2017-05-03');
 
 /*Table structure for table `tb_obras` */
 
@@ -137,14 +121,16 @@ CREATE TABLE `tb_obras` (
   `titulo` varchar(64) NOT NULL,
   `ano_publicacao` year(4) NOT NULL,
   `idassunto` int(10) unsigned NOT NULL,
+  `idautor` int(10) unsigned NOT NULL,
   PRIMARY KEY (`idobra`),
   KEY `tb_obras_FKIndex1` (`ideditora`),
-  KEY `tb_obras_FKIndex2` (`idassunto`)
+  KEY `tb_obras_FKIndex2` (`idassunto`),
+  KEY `tb_obras_FKIndex3` (`idobra`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tb_obras` */
 
-insert  into `tb_obras`(`idobra`,`ideditora`,`titulo`,`ano_publicacao`,`idassunto`) values (1,1,'Test-Driven Development',2016,3),(2,1,'Java - Iniciante',2010,2);
+insert  into `tb_obras`(`idobra`,`ideditora`,`titulo`,`ano_publicacao`,`idassunto`,`idautor`) values (1,1,'Test-Driven Development',2016,3,1),(2,1,'Java - Iniciante',2010,3,1);
 
 /*Table structure for table `tb_pessoas` */
 
@@ -162,7 +148,7 @@ CREATE TABLE `tb_pessoas` (
   `data_registro` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idpessoa`,`idtipo_pessoa`),
   KEY `tb_pessoas_FKIndex1` (`idtipo_pessoa`)
-) ENGINE=InnoDB AUTO_INCREMENT=1600564 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1600562 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tb_pessoas` */
 
