@@ -2,10 +2,12 @@ package br.com.impacta.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+import br.com.impacta.helpers.Validador;
 import br.com.impacta.sql.Sql;
 
 public class Obra implements Crud {
@@ -87,14 +89,23 @@ public class Obra implements Crud {
 
 	public void insert() throws SQLException {
 		params.clear();
-		// params.put("NOME", this.getNome_assunto());
-		SQL.query("INSERT INTO tb_obras (nome_assunto) VALUES ( :NOME )", params);
+		params.put("EDITORA", Long.toString(this.getIdeditora()));
+		params.put("TITULO", this.getTitulo());
+		params.put("ANO", new SimpleDateFormat("yyyy").format(this.getAno_publicacao()));
+		params.put("ASSUNTO", Long.toString(this.getIdassunto()));
+		params.put("AUTOR", Long.toString(this.getIdautor()));
+		SQL.query("INSERT INTO `impacta`.`tb_obras` (`ideditora`, `titulo`, `ano_publicacao`, `idassunto`, `idautor` ) "
+				+ "VALUES (:EDITORA , :TITULO , :ANO , :ASSUNTO , :AUTOR )", params);
 	}
 
 	public void delete() throws SQLException {
 		this.params.clear();
 		params.put("ID", Long.toString(getIdobra()));
-		SQL.query("DELETE FROM tb_obras WHERE idobra = :ID", params);
+		if (Validador.deletar(
+				"SELECT COUNT(*) FROM `tb_emprestimos` a INNER JOIN `tb_exemplares` b ON b.`num_exemplar` = a.`num_exemplar` INNER JOIN `tb_obras` c ON c.`idobra` = b.`idobra` WHERE c.`idobra` = :ID",
+				params)) {
+			SQL.query("DELETE FROM tb_obras WHERE idobra = :ID", params);
+		}
 	}
 
 	public void loadById() throws SQLException {
@@ -129,9 +140,14 @@ public class Obra implements Crud {
 	@Override
 	public void update() throws SQLException {
 		params.clear();
-		params.put("ID", Long.toString(this.getIdobra()));
+		params.put("EDITORA", Long.toString(this.getIdeditora()));
 		params.put("TITULO", this.getTitulo());
-		SQL.query("UPDATE tb_obras SET nome_assunto = :NOME WHERE idassunto = :ID", params);
+		params.put("ANO", new SimpleDateFormat("yyyy").format(this.getAno_publicacao()));
+		params.put("ASSUNTO", Long.toString(this.getIdassunto()));
+		params.put("AUTOR", Long.toString(this.getIdautor()));
+		params.put("ID", Long.toString(this.getIdobra()));
+		SQL.query("UPDATE tb_obras SET " + "titulo = :TITULO ," + "ideditora = :EDITORA ," + "idassunto = :ASSUNTO ,"
+				+ "idautor = :AUTOR ," + "ano_publicacao = :ANO " + "WHERE idobra = :ID ", params);
 
 	}
 

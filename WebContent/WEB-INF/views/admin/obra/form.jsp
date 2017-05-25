@@ -62,6 +62,7 @@
 										<i class="fa fa-times" aria-hidden="true"></i>
 									</button></td>
 							</tr>
+
 							<!-- Modal -->
 							<div class="modal fade modal-warning" id="modal${obra.idobra}"
 								role="dialog">
@@ -75,62 +76,70 @@
 										</div>
 										<form role="form" method="post" class="form-horizontal"
 											action="alterarObra">
-											<input value="${obra.idobra}" name="idobra" type="hidden"
+											<input type="hidden" name="idobra" value="${obra.idobra}"
 												readonly>
 											<div class="modal-body">
 												<div class="box-body">
 													<div class="form-group">
-														<label for="inputNome3" class="col-sm-2 control-label">Nome</label>
+														<label for="inputTitulo${obra.idobra}"
+															class="col-sm-12 control-label">Título</label>
 
-														<div class="col-sm-10">
-															<input type="text" name="nome" class="form-control"
-																id="inputNome3" value="" placeholder="Nome" required>
+														<div class="col-sm-12">
+															<input type="text" name="titulo" class="form-control"
+																id="inputTitulo${obra.idobra}" value="${obra.titulo}"
+																placeholder="Título" required>
 														</div>
 													</div>
 													<div class="form-group">
-														<label for="inputEmail3" class="col-sm-2 control-label">Email</label>
-
-														<div class="col-sm-10">
-															<input type="email" name="email" class="form-control"
-																id="inputEmail3" value="" placeholder="Email" required>
-														</div>
-													</div>
-													<div class="form-group">
-														<label for="inputPassword3" class="col-sm-2 control-label">Senha</label>
-
-														<div class="col-sm-10">
-															<input type="password" name="senha" class="form-control"
-																id="inputPassword3" value="" placeholder="Password"
-																required>
-														</div>
-													</div>
-													<div class="form-group">
-														<label for="inputTelefone2" class="col-sm-2 control-label">Celular</label>
-
-														<div class="col-sm-10">
-															<input type="text" name="telefone" class="form-control"
-																id="inputTelefone2" class="inputTelefone" value=""
-																pattern=".{13,}" placeholder="Telefone" required>
-														</div>
-													</div>
-													<div class="form-group">
-														<label for="inputCpf2" class="col-sm-2 control-label">CPF</label>
-
-														<div class="col-sm-10">
-															<input type="text" name="cpf" class="form-control"
-																pattern=".{14,}" class="inputCpf" value=""
-																id="inputCpf2" placeholder="CPF" required>
-														</div>
-													</div>
-													<div class="form-group">
-														<label for="inputTipo3" class="col-sm-2 control-label">Tipo
-															Obra</label>
-														<div class="col-sm-10">
-															<select id="inputTipo3" class="form-control"
-																name="idtipo_obra">
-																<option value=""></option>
-
+														<label for="inputAutor${obra.idobra}"
+															class="col-sm-12 control-label">Autor</label>
+														<div class="col-sm-12">
+															<select id="inputAutor${obra.idobra}"
+																class="form-control" name="idautor" required>
+																<option value="${obra.idautor}">${obra.autor}</option>
+																<c:forEach items="${autores}" var="autor">
+																	<option value="${autor.idautor}">${autor.nome_autor}</option>
+																</c:forEach>
 															</select>
+														</div>
+													</div>
+													<div class="form-group">
+														<label for="inputEditora${obra.idobra}"
+															class="col-sm-12 control-label">Editora</label>
+														<div class="col-sm-12">
+															<select id="inputEditora${obra.idobra}"
+																class="form-control" name="ideditora" required>
+																<option value="${obra.ideditora}">${obra.editora}</option>
+																<c:forEach items="${editoras}" var="editora">
+																	<option value="${editora.ideditora}">${editora.nome_editora}</option>
+																</c:forEach>
+															</select>
+														</div>
+													</div>
+													<div class="form-group">
+														<label for="inputAssunto${obra.idobra}"
+															class="col-sm-12 control-label">Assunto</label>
+														<div class="col-sm-12">
+															<select id="inputAssunto${obra.idobra}"
+																class="form-control" name="idassunto" required>
+																<option value="${obra.idautor}">${obra.autor}</option>
+																<c:forEach items="${assuntos}" var="assunto">
+																	<option value="${assunto.idassunto}">${assunto.nome_assunto}</option>
+																</c:forEach>
+															</select>
+														</div>
+													</div>
+													<div class="form-group">
+														<label for="inputAno${obra.idobra}"
+															class="col-sm-12 control-label">Ano de publicação</label>
+
+														<div class="col-sm-12">
+															<input type="number" name="data" class="form-control"
+																id="inputAno${obra.idobra}"
+																value="<fmt:formatDate pattern="yyyy"
+										value="${obra.ano_publicacao}" />"
+																min="1500" max="2099" step="1"
+																placeholder="Ano de Publicação" required>
 														</div>
 													</div>
 												</div>
@@ -144,7 +153,6 @@
 									</div>
 								</div>
 							</div>
-
 							<!-- Modal -->
 							<div class="modal fade modal-danger" id="delete${obra.idobra}"
 								role="dialog">
@@ -161,15 +169,13 @@
 												<div class="box-body">
 													<div class="form-group">
 														<p>
-															Tem certeza que deseja excluir <b> ?</b>
+															Tem certeza que deseja excluir <b>${obra.titulo} ?</b>
 														</p>
-														<h6>Caso o usuário não seja deletado é necessário
-															finalizar os empréstimos que estão vinculados a ele</h6>
+														<h6>Caso a obra não seja deletada é necessário
+															finalizar os empréstimos que estão vinculados a ela</h6>
 														<div class="col-sm-12">
 															<input type="hidden" name="idobra" value="${obra.idobra}"
-																readonly> <input type="hidden" value=""
-																name="nome" class="form-control" id="nomeObra"
-																placeholder="Nome da Obra" required readonly>
+																readonly>
 														</div>
 													</div>
 												</div>
@@ -255,9 +261,9 @@
 												de publicação</label>
 
 											<div class="col-sm-10">
-												<input type="number" name="ano_publicacao"
-													class="form-control" id="inputAno" min="1500" max="2099"
-													step="1" placeholder="Ano de Publicação" required>
+												<input type="number" name="data" class="form-control"
+													id="inputAno" min="1500" max="2099" step="1"
+													placeholder="Ano de Publicação" required>
 											</div>
 										</div>
 									</div>

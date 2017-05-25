@@ -39,7 +39,7 @@ public class ObraController {
 	@RequestMapping("admin/adicionarObra")
 	public String adicionarObra(Obra obra, HttpServletRequest req)
 			throws ClassNotFoundException, SQLException, ParseException {
-		obra.setAno_publicacao(FormatarDatas.formatar("2010", "yyyy"));
+		obra.setAno_publicacao(FormatarDatas.formatar(req.getParameter("data"), "yyyy"));
 		obra.insert();
 		return "redirect:obra";
 	}
@@ -72,7 +72,7 @@ public class ObraController {
 	@RequestMapping("admin/alterarObra")
 	public String alterarObra(Obra obra, HttpServletRequest req)
 			throws ClassNotFoundException, SQLException, ParseException {
-		obra.setAno_publicacao(FormatarDatas.formatar(req.getParameter("ano_publicacao"), "yyyy-MM-dd"));
+		obra.setAno_publicacao(FormatarDatas.formatar(req.getParameter("data"), "yyyy"));
 		obra.update();
 		return "redirect:obra";
 	}
