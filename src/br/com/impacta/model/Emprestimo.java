@@ -2,18 +2,22 @@ package br.com.impacta.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import br.com.impacta.sql.Sql;
 
-public class Emprestimo {
+public class Emprestimo implements Crud{
 	private long idemprestimo;
 	private long idpessoa;
 	private long num_exemplar;
 	private Date data_emprestimo;
 	private Date data_prevista_retorno;
 	private boolean finalizado;
+	private final Sql SQL = new Sql();
+	private Map<String, String> params = new HashMap<>();
 	public long getIdemprestimo() {
 		return idemprestimo;
 	}
@@ -70,6 +74,45 @@ public class Emprestimo {
 
 	public void setFinalizado(boolean finalizado) {
 		this.finalizado = finalizado;
+	}
+
+	public void loadById() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void insert() throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete() throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update() throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public ArrayList<Emprestimo> getList() throws SQLException{
+		ArrayList<Emprestimo> emprestimos = new ArrayList<>();
+		ResultSet rs = SQL.select("SELECT * FROM tb_emprestimos ORDER BY idemprestimo", null);
+		while(rs.next()){
+			Emprestimo emprestimo = new Emprestimo();
+			emprestimo.setData(emprestimo, rs);
+			emprestimos.add(emprestimo);
+		}
+		return emprestimos;
+	}
+
+	public void setData(Emprestimo emprestimo, ResultSet rs) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

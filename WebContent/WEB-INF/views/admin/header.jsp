@@ -208,7 +208,7 @@ desired effect
 										<a href="#" class="btn btn-default btn-flat">Profile</a>
 									</div>
 									<div class="pull-right">
-										<a href="logout" class="btn btn-default btn-flat">Sair</a>
+										<a href="<c:url value="/logout"/>" class="btn btn-default btn-flat">Sair</a>
 									</div>
 								</li>
 							</ul>
@@ -259,7 +259,7 @@ desired effect
 					<!-- Optionally, you can add icons to the links -->
 					<li class="active"><a href="<c:url value="/admin"/>"><i
 							class="fa fa-link"></i> <span>Dashboard</span></a></li>
-					<li class=""><a href="#"><i class="fa fa-link"></i> <span>Empréstimos</span></a></li>
+					<li class=""><a href="<c:url value="/admin/emprestimo"/>"><i class="fa fa-link"></i> <span>Empréstimos</span></a></li>
 					<li class=""><a href="#"><i class="fa fa-link"></i> <span>Devolução</span></a></li>
 					<li class=""><a href="#"><i class="fa fa-link"></i> <span>Reservas</span></a></li>
 					<li class="treeview"><a href="#"><i class="fa fa-book"></i>
