@@ -13,30 +13,29 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.com.impacta.model.Emprestimo;
+import br.com.impacta.model.Exemplar;
+import br.com.impacta.model.Pessoa;
 import br.com.impacta.sql.Sql;
 
 @Controller
 public class EmprestimoController {
-	private String erroEmprestimoExiste;
-
-	@RequestMapping("admin/Emprestimo")
+	
+	@RequestMapping("admin/emprestimo")
 	public String carregar(Model model,HttpSession session) throws ClassNotFoundException, SQLException {
-		Emprestimo Emprestimo = (Emprestimo) session.getAttribute("usuarioLogado");
-		Emprestimo.loadById();
-		model.addAttribute("Emprestimo", Emprestimo);
-		model.addAttribute("Emprestimos", new Emprestimo().getList());
-		if (erroEmprestimoExiste != null) {
-			model.addAttribute("erroEmprestimoExiste", erroEmprestimoExiste);
-		}
-		model.addAttribute("tiposEmprestimo", new TipoEmprestimo().getList());
-		model.addAttribute("page", "Emprestimo/form");
+		Pessoa pessoa = (Pessoa) session.getAttribute("usuarioLogado");
+		pessoa.loadById();
+		model.addAttribute("pessoa", pessoa);
+		model.addAttribute("emprestimos", new Emprestimo().getList());
+		model.addAttribute("exemplares", new Exemplar().getListDeExemplaresValidos());
+		model.addAttribute("pessoas", new Pessoa().getListDePessoasValidas());
+		model.addAttribute("page", "emprestimo/form");
 		return "admin/index";
 	}
 
 	@RequestMapping("admin/adicionarEmprestimo")
-	public String adicionarEmprestimo(Emprestimo Emprestimo) throws ClassNotFoundException, SQLException {
-		Emprestimo.insert();
-		return "redirect:Emprestimo";
+	public String adicionarEmprestimo(Emprestimo emprestimo) throws ClassNotFoundException, SQLException {
+		emprestimo.insert();
+		return "redirect:emprestimo";
 	}
 
 	@RequestMapping("admin/buscaEmprestimo")
@@ -47,26 +46,21 @@ public class EmprestimoController {
 		ResultSet rs = new Sql().select(
 				"SELECT * FROM `tb_Emprestimos` a INNER JOIN `tb_tipo_Emprestimo` b ON a.idtipo_Emprestimo = b.idtipo_Emprestimo WHERE idEmprestimo LIKE :BUSCA OR `nome` LIKE :BUSCA OR `email` LIKE :BUSCA OR `telefone` LIKE :BUSCA OR `cpf` LIKE :BUSCA OR `nome_tipo` LIKE :BUSCA ",
 				params);
-		ArrayList<Emprestimo> Emprestimos = new ArrayList<>();
+		ArrayList<Emprestimo> emprestimos = new ArrayList<>();
 		while (rs.next()) {
-			Emprestimo Emprestimo = new Emprestimo();
-			Emprestimo.setData(Emprestimo, rs);
-			Emprestimos.add(Emprestimo);
+			Emprestimo emprestimo = new Emprestimo();
+			emprestimo.setData(emprestimo, rs);
+			emprestimos.add(emprestimo);
 		}
-		model.addAttribute("Emprestimos", Emprestimos);
-		model.addAttribute("page", "Emprestimo/form");
+		model.addAttribute("Emprestimos", emprestimos);
+		model.addAttribute("page", "emprestimo/form");
 		return "admin/index";
 	}
 
-	@RequestMapping("admin/excluirEmprestimo")
-	public String excluirEmprestimo(Emprestimo Emprestimo) throws ClassNotFoundException, SQLException {
-		Emprestimo.delete();
-		return "redirect:Emprestimo";
+	@RequestMapping("admin/devolver")
+	public String excluirEmprestimo(Emprestimo emprestimo) throws ClassNotFoundException, SQLException {
+		emprestimo.devolucao();
+		return "redirect:emprestimo";
 	}
 
-	@RequestMapping("admin/alterarEmprestimo")
-	public String alterarEmprestimo(Emprestimo Emprestimo) throws ClassNotFoundException, SQLException {
-		Emprestimo.update();
-		return "redirect:Emprestimo";
-	}
 }

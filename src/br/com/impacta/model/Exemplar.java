@@ -105,6 +105,20 @@ public class Exemplar implements Crud {
 		return exemplares;
 	}
 
+	public ArrayList<Exemplar> getListDeExemplaresValidos() throws ClassNotFoundException, SQLException {
+		ArrayList<Exemplar> exemplares = new ArrayList<>();
+		ResultSet rs = SQL.select("SELECT * FROM tb_exemplares ORDER BY num_exemplar", null);
+		while (rs.next()) {
+			Exemplar exemplar = new Exemplar();
+			exemplar.setData(exemplar, rs);
+			if(!exemplar.isEmprestado()){
+				exemplares.add(exemplar);
+			}
+		}
+		return exemplares;
+	}
+	
+	
 	public static int count() throws ClassNotFoundException, SQLException {
 		ResultSet rs = new Sql().select("SELECT COUNT(`num_exemplar`) FROM `tb_exemplares`", null);
 		int rows = 0;

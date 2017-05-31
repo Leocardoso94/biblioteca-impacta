@@ -175,12 +175,32 @@ public class Pessoa implements Crud {
 
 	public ArrayList<Pessoa> getList() throws SQLException {
 		ArrayList<Pessoa> pessoas = new ArrayList<>();
-		ResultSet rs = SQL
-				.select("SELECT * FROM `tb_pessoas` a, tb_tipo_pessoa b where a.idtipo_pessoa = b.idtipo_pessoa order by nome", null);
+		ResultSet rs = SQL.select(
+				"SELECT * FROM `tb_pessoas` a, tb_tipo_pessoa b where a.idtipo_pessoa = b.idtipo_pessoa order by nome",
+				null);
 		while (rs.next()) {
 			Pessoa pessoa = new Pessoa();
 			pessoa.setData(pessoa, rs);
 			pessoas.add(pessoa);
+		}
+		return pessoas;
+	}
+
+	public ArrayList<Pessoa> getListDePessoasValidas() throws SQLException {
+		ArrayList<Pessoa> pessoas = new ArrayList<>();
+		ResultSet rs = SQL.select(
+				"SELECT * FROM `tb_pessoas` a, tb_tipo_pessoa b where a.idtipo_pessoa = b.idtipo_pessoa order by nome",
+				null);
+		while (rs.next()) {
+			Pessoa pessoa = new Pessoa();
+			pessoa.setData(pessoa, rs);
+			if (!pessoa.isAtrasado()) {
+				if (pessoa.idpessoa == 1 && pessoa.contagemDeEmprestimosPorPessoa() < 5) {
+					pessoas.add(pessoa);
+				} else if (pessoa.contagemDeEmprestimosPorPessoa() < 3) {
+					pessoas.add(pessoa);
+				}
+			}
 		}
 		return pessoas;
 	}
@@ -211,11 +231,21 @@ public class Pessoa implements Crud {
 				+ "`cpf` = :CPF " + "WHERE `idpessoa` = :ID", params);
 
 	}
-	
+
+	public boolean isAtrasado() throws SQLException {
+		params.clear();
+		params.put("ID", Long.toString(this.getIdpessoa()));
+		ResultSet rs = SQL.select(
+				"SELECT idemprestimo FROM tb_emprestimos WHERE `idpessoa` = :ID and finalizado = 0 AND `data_prevista_retorno` < NOW()",
+				params);
+		return rs.next();
+	}
+
 	public int contagemDeEmprestimosPorPessoa() throws SQLException {
 		params.clear();
 		params.put("ID", Long.toString(this.getIdpessoa()));
-		ResultSet rs = SQL.select("SELECT COUNT(*) FROM tb_emprestimos WHERE `idpessoa` = :ID and finalizado = 0", params);
+		ResultSet rs = SQL.select("SELECT COUNT(*) FROM tb_emprestimos WHERE `idpessoa` = :ID and finalizado = 0",
+				params);
 		int rows = 0;
 		if (rs.last()) {
 			rows = rs.getInt(1);
