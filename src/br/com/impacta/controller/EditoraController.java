@@ -40,7 +40,7 @@ public class EditoraController {
 		HashMap<String, String> params = new HashMap<>();
 		String busca = "%" + request.getParameter("search") + "%";
 		params.put("BUSCA", busca);
-		ResultSet rs = new Sql().select("SELECT * From tb_editoras WHERE nome_editora LIKE :BUSCA", params);
+		ResultSet rs = new Sql().select("SELECT * From tb_editoras WHERE nome_editora LIKE :BUSCA or ideditora LIKE :BUSCA", params);
 		ArrayList<Editora> editoras = new ArrayList<>();
 		while (rs.next()) {			
 			Editora editora = new Editora();

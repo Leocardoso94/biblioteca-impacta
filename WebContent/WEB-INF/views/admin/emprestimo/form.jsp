@@ -47,9 +47,12 @@
 						<c:forEach items="${emprestimos}" var="emprestimo">
 							<tr>
 								<td>${emprestimo.idemprestimo}</td>
-								<td>#${emprestimo.num_exemplar} -
-									${emprestimo.getNomeExemplar()}</td>
-								<td>${emprestimo.getNomePessoa()}</td>
+								<td><a
+									href="<c:url value="/admin/buscaExemplar?search=${emprestimo.num_exemplar}"/>">#${emprestimo.num_exemplar}
+										- ${emprestimo.getNomeExemplar()}</a></td>
+								<td><a
+									href="<c:url value="/admin/buscaPessoa?search=${emprestimo.idpessoa}"/>">#${emprestimo.idpessoa}
+										- ${emprestimo.getNomePessoa()}</a></td>
 								<td><fmt:formatDate value="${emprestimo.data_emprestimo}"
 										type="date" dateStyle="long" /></td>
 								<td><fmt:formatDate
@@ -131,11 +134,11 @@
 							<form role="form" method="post" class="form-horizontal"
 								action="adicionarEmprestimo">
 								<div class="modal-body">
-									<div class="box-body">									
+									<div class="box-body">
 										<div class="form-group">
-											<label for="inputUsuario" class="col-sm-2 control-label">Exemplar</label>
+											<label for="inputExemplar" class="col-sm-2 control-label">Exemplar</label>
 											<div class="col-sm-10">
-												<select id="inputUsuario" class="form-control"
+												<select id="inputExemplar" class="form-control"
 													name="num_exemplar" required>
 													<option></option>
 													<c:forEach items="${exemplares}" var="exemplar">
@@ -148,21 +151,33 @@
 										<div class="form-group">
 											<label for="inputUsuario" class="col-sm-2 control-label">Usuário</label>
 											<div class="col-sm-10">
-												<select id="inputUsuario" class="form-control" name="pessoa"
-													required>
+												<select id="inputUsuario" class="form-control"
+													name="idpessoa" required>
 													<option></option>
 													<c:forEach items="${pessoas}" var="pessoa">
-														<option value="${pessoa.idpessoa}">${pessoa.nome}</option>
+														<option value="${pessoa.idpessoa}">#${pessoa.idpessoa} - ${pessoa.nome}</option>
 													</c:forEach>
 												</select>
 											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputSenha" class="col-sm-6 control-label">O
+												usuário deve digitar a senha de acesso:</label>
+											<div class="col-sm-6">
+												<input type="password" name="senha" placeholder="Senha"
+													class="form-control" id="inputSenha">
+											</div>
+										</div>
+										<div class="form-group">											
+												<button type="button" class="btn btn-danger pull-right"
+												onclick="checaSenha()">Validar usuário</button>																						
 										</div>
 									</div>
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-default"
 										data-dismiss="modal">Cancelar</button>
-									<button type="submit" class="btn btn-outline">Inserir</button>
+									<button type="submit" disabled id="btnEmprestimo" class="btn btn-outline">Inserir</button>
 								</div>
 							</form>
 						</div>
@@ -185,3 +200,19 @@
 
 	</div>
 </section>
+
+<script type="text/javascript">
+function checaSenha() {
+var senha = $("#inputSenha").val();
+var id = $("#inputUsuario option:selected" ).text().split(" ")[0].split("#")[1];
+$.get("validaUsuario?senha=" + senha+"&id="+id, function(dadosDeResposta) {
+if(dadosDeResposta == "Erro"){
+	alert("Senha inválida para este usuário");
+	$("#btnEmprestimo").prop("disabled",true);
+}else{
+	$("#btnEmprestimo").prop("disabled",false);
+}
+});
+
+}
+</script>

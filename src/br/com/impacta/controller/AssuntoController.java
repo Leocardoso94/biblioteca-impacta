@@ -40,7 +40,7 @@ public class AssuntoController {
 		HashMap<String, String> params = new HashMap<>();
 		String busca = "%" + request.getParameter("search") + "%";
 		params.put("BUSCA", busca);
-		ResultSet rs = new Sql().select("SELECT * From tb_assuntos WHERE nome_assunto LIKE :BUSCA", params);
+		ResultSet rs = new Sql().select("SELECT * From tb_assuntos WHERE nome_assunto LIKE :BUSCA or idassunto LIKE :BUSCA", params);
 		ArrayList<Assunto> assuntos = new ArrayList<>();
 		while (rs.next()) {			
 			Assunto assunto = new Assunto();

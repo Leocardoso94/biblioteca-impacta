@@ -49,9 +49,12 @@
 							<tr>
 								<td>${obra.idobra}</td>
 								<td>${obra.titulo}</td>
-								<td>${obra.autor}</td>
-								<td>${obra.editora}</td>
-								<td>${obra.assunto}</td>
+								<td><a
+									href="<c:url value="/admin/buscarAutor?search=${obra.idautor}"/>">${obra.autor}</a></td>
+								<td><a
+									href="<c:url value="/admin/buscaEditora?search=${obra.ideditora}"/>">${obra.editora}</a></td>
+								<td><a
+									href="<c:url value="/admin/buscaAssunto?search=${obra.idassunto}"/>">${obra.assunto}</a></td>
 								<td><fmt:formatDate pattern="yyyy"
 										value="${obra.ano_publicacao}" /></td>
 								<td>${obra.contagemDeExemplaresPorObras()}</td>

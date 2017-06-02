@@ -13,7 +13,7 @@ public class Sql {
 	private final String DBNAME = "impacta";
 	private Connection conn;
 
-	public Sql()  {
+	public Sql() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
@@ -29,8 +29,11 @@ public class Sql {
 
 	}
 
-	/**Monta a query, insere os valores de cada parâmetro desejado
-	 * @param statement	 * 	
+	/**
+	 * Monta a query, insere os valores de cada parâmetro desejado
+	 * 
+	 * @param statement
+	 *            *
 	 * @param parameters
 	 * @throws SQLException
 	 */
@@ -40,7 +43,9 @@ public class Sql {
 		}
 	}
 
-	/**Coloca cada parametro na posição correta 
+	/**
+	 * Coloca cada parametro na posição correta
+	 * 
 	 * @param statement
 	 * @param key
 	 * @param value
@@ -50,35 +55,39 @@ public class Sql {
 		statement.setString(key, value);
 	}
 
-
-	/**Executa um comando no banco de dados, ideal para inserts, deletes e updates
+	/**
+	 * Executa um comando no banco de dados, ideal para inserts, deletes e
+	 * updates
+	 * 
 	 * @param rawQuery
-	 * 				Consulta desejada
+	 *            Consulta desejada
 	 * @param params
-	 * 				Os parametros da consulta
+	 *            Os parametros da consulta
 	 * @throws SQLException
 	 */
 	public void query(String rawQuery, Map<String, String> params) throws SQLException {
 		NamedParameterStatement stmt = new NamedParameterStatement(conn, rawQuery);
-		this.setParams(stmt, params);
+		if (params != null) {
+			this.setParams(stmt, params);
+		}
 		stmt.execute();
 		stmt.close();
 	}
 
-	
-	/**Executa uma Consulta na base de dados
+	/**
+	 * Executa uma Consulta na base de dados
+	 * 
 	 * @param rawQuery
-	 * 				Consulta desejada
+	 *            Consulta desejada
 	 * @param params
-	 * 				Os parametros da consulta
-	 * @return
-	 * 				Retorna um ResultSet com a consulta utilizada
+	 *            Os parametros da consulta
+	 * @return Retorna um ResultSet com a consulta utilizada
 	 * @throws SQLException
 	 */
 	public ResultSet select(String rawQuery, Map<String, String> params) throws SQLException {
 		NamedParameterStatement stmt = new NamedParameterStatement(conn, rawQuery);
-		if(params!=null){
-		this.setParams(stmt, params);
+		if (params != null) {
+			this.setParams(stmt, params);
 		}
 		return stmt.executeQuery();
 	}

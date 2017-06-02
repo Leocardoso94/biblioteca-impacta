@@ -42,7 +42,9 @@ public class ExemplarController {
 		HashMap<String, String> params = new HashMap<>();
 		String busca = "%" + request.getParameter("search") + "%";
 		params.put("BUSCA", busca);
-		ResultSet rs = new Sql().select("SELECT * From tb_exemplares WHERE nome_exemplar LIKE :BUSCA", params);
+		ResultSet rs = new Sql().select(
+				"SELECT * FROM `tb_exemplares` b INNER JOIN `tb_obras` a ON b.`idobra` = a.`idobra` WHERE titulo LIKE :BUSCA OR `num_exemplar` LIKE :BUSCA",
+				params);
 		ArrayList<Exemplar> exemplares = new ArrayList<>();
 		while (rs.next()) {
 			Exemplar exemplar = new Exemplar();

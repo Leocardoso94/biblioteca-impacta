@@ -1,11 +1,13 @@
 package br.com.impacta.controller;
 
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -19,9 +21,9 @@ import br.com.impacta.sql.Sql;
 
 @Controller
 public class EmprestimoController {
-	
+
 	@RequestMapping("admin/emprestimo")
-	public String carregar(Model model,HttpSession session) throws ClassNotFoundException, SQLException {
+	public String carregar(Model model, HttpSession session) throws ClassNotFoundException, SQLException {
 		Pessoa pessoa = (Pessoa) session.getAttribute("usuarioLogado");
 		pessoa.loadById();
 		model.addAttribute("pessoa", pessoa);
@@ -38,13 +40,27 @@ public class EmprestimoController {
 		return "redirect:emprestimo";
 	}
 
+	@RequestMapping("admin/validaUsuario")
+	public void validaUsuario(String senha, Long id, HttpServletResponse response) throws SQLException, IOException {
+		Pessoa pessoa = new Pessoa();
+		pessoa.setIdpessoa(id);
+		pessoa.setSenha(senha);
+		if (pessoa.login()) {
+			response.getWriter().write("Sucesso");
+			
+		}else{
+		response.getWriter().write("Erro");
+		}
+		response.setStatus(200);
+	}
+
 	@RequestMapping("admin/buscaEmprestimo")
 	public String buscaEmprestimo(HttpServletRequest request, Model model) throws ClassNotFoundException, SQLException {
 		HashMap<String, String> params = new HashMap<>();
 		String busca = "%" + request.getParameter("search") + "%";
 		params.put("BUSCA", busca);
 		ResultSet rs = new Sql().select(
-				"SELECT * FROM `tb_Emprestimos` a INNER JOIN `tb_tipo_Emprestimo` b ON a.idtipo_Emprestimo = b.idtipo_Emprestimo WHERE idEmprestimo LIKE :BUSCA OR `nome` LIKE :BUSCA OR `email` LIKE :BUSCA OR `telefone` LIKE :BUSCA OR `cpf` LIKE :BUSCA OR `nome_tipo` LIKE :BUSCA ",
+				"SELECT a.`data_emprestimo`,a.`data_prevista_retorno`,a.`finalizado`,a.`idemprestimo`,a.`idpessoa`,a.`num_exemplar` FROM `tb_emprestimos` a INNER JOIN `tb_pessoas` b ON b.`idpessoa` = a.`idpessoa` INNER JOIN `tb_exemplares` c ON c.`num_exemplar` = a.`num_exemplar` INNER JOIN `tb_obras` d ON d.`idobra` = c.`idobra` WHERE a.`idpessoa` LIKE :BUSCA OR b.`nome`  LIKE :BUSCA OR a.`idemprestimo` LIKE :BUSCA OR a.`num_exemplar`  LIKE :BUSCA OR d.`titulo` LIKE :BUSCA",
 				params);
 		ArrayList<Emprestimo> emprestimos = new ArrayList<>();
 		while (rs.next()) {
@@ -52,7 +68,7 @@ public class EmprestimoController {
 			emprestimo.setData(emprestimo, rs);
 			emprestimos.add(emprestimo);
 		}
-		model.addAttribute("Emprestimos", emprestimos);
+		model.addAttribute("emprestimos", emprestimos);
 		model.addAttribute("page", "emprestimo/form");
 		return "admin/index";
 	}

@@ -252,5 +252,12 @@ public class Pessoa implements Crud {
 		}
 		return rows;
 	}
+	
+	public int diasEmprestimos(){
+		if(this.getIdtipo_pessoa()==3){
+			return 15;
+		}
+		return 7;		
+	}
 
 }

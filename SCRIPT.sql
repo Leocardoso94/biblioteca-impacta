@@ -44,7 +44,7 @@ CREATE TABLE `tb_autores` (
 
 /*Data for the table `tb_autores` */
 
-insert  into `tb_autores`(`idautor`,`nome_autor`) values (12,'Carlos'),(18,'Gustavo'),(9,'João Cardoso'),(1,'Leonardo Cardoso'),(19,'Teste');
+insert  into `tb_autores`(`idautor`,`nome_autor`) values (12,'Carlos'),(18,'Gustavo Almeida'),(9,'João Cardoso'),(1,'Leonardo Cardoso'),(19,'Teste');
 
 /*Table structure for table `tb_devolucoes` */
 
@@ -73,7 +73,7 @@ CREATE TABLE `tb_editoras` (
 
 /*Data for the table `tb_editoras` */
 
-insert  into `tb_editoras`(`ideditora`,`nome_editora`) values (10,'Alura'),(9,'Caelum'),(1,'Casa do Código'),(2,'Levante'),(5,'Roberts Edits'),(11,'Teste');
+insert  into `tb_editoras`(`ideditora`,`nome_editora`) values (10,'Alura'),(9,'Caelum LTDA.'),(1,'Casa do Código'),(2,'Levante'),(5,'Roberts Edits'),(11,'Teste');
 
 /*Table structure for table `tb_emprestimos` */
 
@@ -89,11 +89,11 @@ CREATE TABLE `tb_emprestimos` (
   PRIMARY KEY (`idemprestimo`),
   KEY `tb_emprestimos_FKIndex1` (`num_exemplar`),
   KEY `tb_emprestimos_FKIndex2` (`idpessoa`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tb_emprestimos` */
 
-insert  into `tb_emprestimos`(`idemprestimo`,`idpessoa`,`num_exemplar`,`data_emprestimo`,`data_prevista_retorno`,`finalizado`) values (1,1600559,1,'2017-05-19 13:31:21','2017-05-25',0),(2,1600559,3,'2017-05-25 16:17:48','2017-05-18',0);
+insert  into `tb_emprestimos`(`idemprestimo`,`idpessoa`,`num_exemplar`,`data_emprestimo`,`data_prevista_retorno`,`finalizado`) values (1,1600559,1,'2017-06-02 13:10:38','2017-06-17',1),(2,1600562,548232035,'2017-06-02 12:17:51','2017-06-09',0),(3,1600561,4454,'2017-06-02 13:09:41','2017-06-09',1),(4,1600559,3,'2017-06-02 12:44:41','2017-06-17',1),(5,1600561,3,'2017-06-02 13:08:07','2017-06-09',0),(6,1600561,4454,'2017-06-02 13:09:48','2017-06-09',0),(7,1600559,1,'2017-06-02 13:12:23','2017-06-17',1),(8,1600559,1,'2017-06-02 14:11:22','2017-06-17',0);
 
 /*Table structure for table `tb_exemplares` */
 
@@ -106,11 +106,11 @@ CREATE TABLE `tb_exemplares` (
   `data_aquisicao` date NOT NULL,
   PRIMARY KEY (`num_exemplar`),
   KEY `tb_exemplar_FKIndex1` (`idobra`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=548232036 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tb_exemplares` */
 
-insert  into `tb_exemplares`(`num_exemplar`,`idobra`,`emprestado`,`data_aquisicao`) values (1,1,1,'2017-05-04'),(3,2,1,'2017-05-03');
+insert  into `tb_exemplares`(`num_exemplar`,`idobra`,`emprestado`,`data_aquisicao`) values (1,1,1,'2017-05-04'),(3,2,1,'2017-05-03'),(4454,4,1,'2017-06-15'),(548232035,4,1,'2017-06-16');
 
 /*Table structure for table `tb_obras` */
 
@@ -127,11 +127,11 @@ CREATE TABLE `tb_obras` (
   KEY `tb_obras_FKIndex1` (`ideditora`),
   KEY `tb_obras_FKIndex2` (`idassunto`),
   KEY `tb_obras_FKIndex3` (`idobra`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tb_obras` */
 
-insert  into `tb_obras`(`idobra`,`ideditora`,`titulo`,`ano_publicacao`,`idassunto`,`idautor`) values (1,1,'Test-Driven Development',2016,3,1),(2,11,'Teste',2008,7,19),(4,5,'Clean Code',2010,3,18);
+insert  into `tb_obras`(`idobra`,`ideditora`,`titulo`,`ano_publicacao`,`idassunto`,`idautor`) values (1,1,'Test-Driven Development',2016,3,1),(2,11,'Teste',2008,7,19),(4,5,'Clean Code',2010,3,18),(5,10,'Java Web',2017,5,9),(6,2,'Marketing Pessoal',1998,4,12);
 
 /*Table structure for table `tb_pessoas` */
 
@@ -149,11 +149,11 @@ CREATE TABLE `tb_pessoas` (
   `data_registro` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idpessoa`,`idtipo_pessoa`),
   KEY `tb_pessoas_FKIndex1` (`idtipo_pessoa`)
-) ENGINE=InnoDB AUTO_INCREMENT=1600562 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1600563 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tb_pessoas` */
 
-insert  into `tb_pessoas`(`idpessoa`,`idtipo_pessoa`,`nome`,`email`,`senha`,`telefone`,`inadmin`,`cpf`,`data_registro`) values (1600559,3,'Leonardo Cardoso','leocardoso@impacta.com.br','1234','11 95174-0678',1,'430.430.430-92','2017-05-18 16:45:26'),(1600561,1,'Fernando Carvalho','teste@teste.com','12121','11 37268-2262',1,'323.232.323-32','2017-05-23 15:44:34');
+insert  into `tb_pessoas`(`idpessoa`,`idtipo_pessoa`,`nome`,`email`,`senha`,`telefone`,`inadmin`,`cpf`,`data_registro`) values (1600559,3,'Leonardo Cardoso','leocardoso@impacta.com.br','1234','11 95174-0678',1,'430.430.430-92','2017-05-18 16:45:26'),(1600561,1,'Fernando Carvalho','teste@teste.com','12121','11 37268-2262',0,'323.232.323-32','2017-05-23 15:44:34'),(1600562,1,'Madeira','madeira@impacta.edu.br','1234','11 93338-7788',0,'423.256.454-44','2017-05-31 13:19:42');
 
 /*Table structure for table `tb_reservas` */
 

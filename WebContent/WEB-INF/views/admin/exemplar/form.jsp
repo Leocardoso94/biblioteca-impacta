@@ -45,12 +45,14 @@
 						<c:forEach items="${exemplares}" var="exemplar">
 							<tr>
 								<td>${exemplar.num_exemplar}</td>
-								<td>${exemplar.nomeobra}</td>
+								<td><a
+									href="<c:url value="/admin/buscaObra?search=${exemplar.nomeobra}"/>">${exemplar.nomeobra}</a></td>
 								<td><fmt:formatDate value="${exemplar.data_aquisicao}"
 										type="date" dateStyle="long" /></td>
 								<c:choose>
 									<c:when test="${exemplar.emprestado}">
-										<td>Sim</td>
+										<td><a
+											href="<c:url value="/admin/buscaEmprestimo?search=${exemplar.num_exemplar}"/>">Sim</a></td>
 									</c:when>
 									<c:otherwise>
 										<td>Não</td>
@@ -77,10 +79,10 @@
 											<button type="button" class="close" data-dismiss="modal">&times;</button>
 											<h4 class="modal-title">Alterar</h4>
 										</div>
-										
-											<div class="modal-body">
+
+										<div class="modal-body">
 											<form role="form" method="post" class="form-horizontal"
-											action="alterarExemplar">
+												action="alterarExemplar">
 												<div class="box-body">
 													<input type="hidden" name="num_exemplar"
 														value="${exemplar.num_exemplar}">
@@ -110,14 +112,14 @@
 														</div>
 													</div>
 												</div>
-												</form>
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-default"
-													data-dismiss="modal">Cancelar</button>
-												<button type="submit" class="btn btn-outline">Alterar</button>
-											</div>
-										
+											</form>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-default"
+												data-dismiss="modal">Cancelar</button>
+											<button type="submit" class="btn btn-outline">Alterar</button>
+										</div>
+
 									</div>
 								</div>
 							</div>

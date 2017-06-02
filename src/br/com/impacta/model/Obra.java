@@ -172,8 +172,8 @@ public class Obra implements Crud {
 	}
 	public int contagemDeExemplaresPorObras() throws SQLException {
 		params.clear();
-		params.put("ID", Integer.toString(this.getIdassunto()));
-		ResultSet rs = SQL.select("SELECT COUNT(*) FROM tb_obras WHERE `idassunto` = :ID", params);
+		params.put("ID", Long.toString(this.getIdobra()));
+		ResultSet rs = SQL.select("SELECT COUNT(*) FROM tb_exemplares WHERE `idobra` = :ID", params);
 		int rows = 0;
 		if (rs.last()) {
 			rows = rs.getInt(1);

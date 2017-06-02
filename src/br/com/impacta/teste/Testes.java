@@ -2,18 +2,25 @@ package br.com.impacta.teste;
 
 import java.sql.SQLException;
 import java.text.ParseException;
-
-import br.com.impacta.model.Emprestimo;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Testes {
 
 	public static void main(String[] args) throws SQLException, ClassNotFoundException, ParseException {
 
-		Emprestimo emprestimo = new Emprestimo();
-		emprestimo.setIdemprestimo(1);
-		emprestimo.loadById();
-		emprestimo.devolucao();
-		System.out.println(emprestimo.getNum_exemplar());
+		// Usuário informa uma data
+		Date dataDoUsuario = new Date();
+
+		// Através do Calendar, trabalhamos a data informada e adicionamos 1 dia nela
+		Calendar c = Calendar.getInstance();
+		c.setTime(dataDoUsuario);
+		c.add(Calendar.DATE, -1);
+
+		// Obtemos a data alterada
+		Date data = c.getTime();
+		
+		System.out.println(dataDoUsuario.compareTo(data));
 
 	}
 }

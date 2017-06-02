@@ -2,7 +2,9 @@ package br.com.impacta.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -88,13 +90,33 @@ public class Emprestimo implements Crud {
 
 	@Override
 	public void insert() throws SQLException {
-		// TODO Auto-generated method stub
+		Pessoa pessoa = new Pessoa();
+		pessoa.setIdpessoa(getIdpessoa());
+		pessoa.loadById();
+
+		Date dataPrevista = new Date();
+		// Através do Calendar, trabalhamos a data informada e adicionamos os
+		// dias nela
+		Calendar c = Calendar.getInstance();
+		c.setTime(dataPrevista);
+		c.add(Calendar.DATE, +pessoa.diasEmprestimos());
+
+		// Obtemos a data alterada
+		dataPrevista = c.getTime();
+
+		params.clear();
+		params.put("NUM", Long.toString(this.getNum_exemplar()));
+		params.put("ID", Long.toString(pessoa.getIdpessoa()));
+		SQL.query("INSERT INTO tb_emprestimos (idpessoa, num_exemplar, data_prevista_retorno) VALUES ( '"
+				+ pessoa.getIdpessoa() + "' , '" + getNum_exemplar() + "' ,'"
+				+ new SimpleDateFormat("yyyy/MM/dd").format(dataPrevista) + "' )", null);
+		SQL.query("UPDATE  `tb_exemplares` SET  `emprestado` = 1 WHERE num_exemplar = '" + getNum_exemplar() + "'",
+				null);
 
 	}
 
 	@Override
 	public void delete() throws SQLException {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -104,7 +126,7 @@ public class Emprestimo implements Crud {
 
 	}
 
-	public void devolucao() throws SQLException {		
+	public void devolucao() throws SQLException {
 		this.loadById();
 		SQL.query("UPDATE  `tb_emprestimos` SET  `finalizado` = 1 WHERE idemprestimo = :ID", params);
 		params.clear();
@@ -160,7 +182,10 @@ public class Emprestimo implements Crud {
 		if (isFinalizado()) {
 			return "Ok";
 		}
-		return "Atrasado";
+		if (getData_prevista_retorno().compareTo(new Date()) == 1){
+			return "Pendente";
+		}
+			return "Atrasado";
 	}
 
 	public double valorDaMulta() {

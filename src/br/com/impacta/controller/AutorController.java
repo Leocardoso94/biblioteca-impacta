@@ -51,7 +51,7 @@ public class AutorController {
 		HashMap<String, String> params = new HashMap<>();
 		String busca = "%" + request.getParameter("search") + "%";
 		params.put("BUSCA", busca);
-		ResultSet rs = new Sql().select("SELECT * From tb_autores WHERE nome_autor LIKE :BUSCA", params);
+		ResultSet rs = new Sql().select("SELECT * From tb_autores WHERE nome_autor LIKE :BUSCA OR idautor LIKE :BUSCA", params);
 		ArrayList<Autor> autores = new ArrayList<>();
 		while (rs.next()) {			
 			Autor autor = new Autor();
