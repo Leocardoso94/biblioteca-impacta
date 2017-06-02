@@ -90,19 +90,30 @@ public class Emprestimo implements Crud {
 
 	@Override
 	public void insert() throws SQLException {
+
 		Pessoa pessoa = new Pessoa();
 		pessoa.setIdpessoa(getIdpessoa());
 		pessoa.loadById();
 
 		Date dataPrevista = new Date();
-		// Através do Calendar, trabalhamos a data informada e adicionamos os
-		// dias nela
-		Calendar c = Calendar.getInstance();
-		c.setTime(dataPrevista);
-		c.add(Calendar.DATE, +pessoa.diasEmprestimos());
 
-		// Obtemos a data alterada
-		dataPrevista = c.getTime();
+		Calendar c1 = Calendar.getInstance();
+
+		c1.setTime(new Date());
+		c1.add(Calendar.DATE, +pessoa.diasEmprestimos());
+
+		ResultSet rs = SQL.select(
+				"SELECT * FROM tb_reservas where data_retirada > NOW() and num_exemplar = " + getNum_exemplar(),
+				params);
+		if (rs.next()) {
+			Calendar c2 = Calendar.getInstance();
+			c2.setTime(rs.getDate("data_retirada"));
+			c2.add(Calendar.DATE, -1);
+			if (c2.compareTo(c1) < 0) {
+				c1 = c2;
+			}
+		}
+		dataPrevista = c1.getTime();
 
 		params.clear();
 		params.put("NUM", Long.toString(this.getNum_exemplar()));
@@ -182,10 +193,10 @@ public class Emprestimo implements Crud {
 		if (isFinalizado()) {
 			return "Ok";
 		}
-		if (getData_prevista_retorno().compareTo(new Date()) == 1){
+		if (getData_prevista_retorno().compareTo(new Date()) == 1) {
 			return "Pendente";
 		}
-			return "Atrasado";
+		return "Atrasado";
 	}
 
 	public double valorDaMulta() {

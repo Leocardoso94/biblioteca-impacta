@@ -260,8 +260,7 @@ desired effect
 					<li class="active"><a href="<c:url value="/admin"/>"><i
 							class="fa fa-link"></i> <span>Dashboard</span></a></li>
 					<li class=""><a href="<c:url value="/admin/emprestimo"/>"><i class="fa fa-link"></i> <span>Empréstimos</span></a></li>
-					<li class=""><a href="#"><i class="fa fa-link"></i> <span>Devolução</span></a></li>
-					<li class=""><a href="#"><i class="fa fa-link"></i> <span>Reservas</span></a></li>
+					<li class=""><a href="<c:url value="/admin/reserva"/>"><i class="fa fa-link"></i> <span>Reservas</span></a></li>
 					<li class="treeview"><a href="#"><i class="fa fa-book"></i>
 							<span>Acervo</span> <span class="pull-right-container"> <i
 								class="fa fa-angle-left pull-right"></i>

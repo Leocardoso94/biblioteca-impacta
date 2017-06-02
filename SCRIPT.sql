@@ -89,11 +89,11 @@ CREATE TABLE `tb_emprestimos` (
   PRIMARY KEY (`idemprestimo`),
   KEY `tb_emprestimos_FKIndex1` (`num_exemplar`),
   KEY `tb_emprestimos_FKIndex2` (`idpessoa`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tb_emprestimos` */
 
-insert  into `tb_emprestimos`(`idemprestimo`,`idpessoa`,`num_exemplar`,`data_emprestimo`,`data_prevista_retorno`,`finalizado`) values (1,1600559,1,'2017-06-02 13:10:38','2017-06-17',1),(2,1600562,548232035,'2017-06-02 12:17:51','2017-06-09',0),(3,1600561,4454,'2017-06-02 13:09:41','2017-06-09',1),(4,1600559,3,'2017-06-02 12:44:41','2017-06-17',1),(5,1600561,3,'2017-06-02 13:08:07','2017-06-09',0),(6,1600561,4454,'2017-06-02 13:09:48','2017-06-09',0),(7,1600559,1,'2017-06-02 13:12:23','2017-06-17',1),(8,1600559,1,'2017-06-02 14:11:22','2017-06-17',0);
+insert  into `tb_emprestimos`(`idemprestimo`,`idpessoa`,`num_exemplar`,`data_emprestimo`,`data_prevista_retorno`,`finalizado`) values (1,1600559,1,'2017-06-02 13:10:38','2017-06-17',1),(2,1600562,548232035,'2017-06-02 12:17:51','2017-06-09',0),(3,1600561,4454,'2017-06-02 13:09:41','2017-06-09',1),(4,1600559,3,'2017-06-02 12:44:41','2017-06-17',1),(5,1600561,3,'2017-06-02 13:08:07','2017-06-09',0),(6,1600561,4454,'2017-06-02 15:49:21','2017-06-09',1),(7,1600559,1,'2017-06-02 13:12:23','2017-06-17',1),(8,1600559,1,'2017-06-02 15:16:07','2017-06-17',1),(9,1600559,1,'2017-06-02 15:46:15','2017-06-22',1),(10,1600562,1,'2017-06-02 15:48:55','2017-06-14',1),(11,1600559,1,'2017-06-02 15:49:18','2017-06-06',1),(12,1600562,4454,'2017-06-02 16:10:36','2017-06-09',1),(13,1600559,1,'2017-06-02 16:12:07','2017-06-17',1),(14,1600559,1,'2017-06-02 16:12:36','2017-06-04',1),(15,1600559,1,'2017-06-02 16:15:56','2017-06-17',1);
 
 /*Table structure for table `tb_exemplares` */
 
@@ -110,7 +110,7 @@ CREATE TABLE `tb_exemplares` (
 
 /*Data for the table `tb_exemplares` */
 
-insert  into `tb_exemplares`(`num_exemplar`,`idobra`,`emprestado`,`data_aquisicao`) values (1,1,1,'2017-05-04'),(3,2,1,'2017-05-03'),(4454,4,1,'2017-06-15'),(548232035,4,1,'2017-06-16');
+insert  into `tb_exemplares`(`num_exemplar`,`idobra`,`emprestado`,`data_aquisicao`) values (1,1,0,'2017-05-04'),(3,2,1,'2017-05-03'),(4454,4,0,'2017-06-15'),(548232035,4,1,'2017-06-16');
 
 /*Table structure for table `tb_obras` */
 
@@ -164,25 +164,15 @@ CREATE TABLE `tb_reservas` (
   `idpessoa` int(10) unsigned NOT NULL,
   `data_reserva` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `data_retirada` date NOT NULL,
+  `num_exemplar` int(15) NOT NULL,
   PRIMARY KEY (`idreserva`),
-  KEY `tb_reservas_FKIndex1` (`idpessoa`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `tb_reservas_FKIndex1` (`idpessoa`),
+  KEY `tb_reservas_FKIndex2` (`num_exemplar`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tb_reservas` */
 
-/*Table structure for table `tb_reservas_obras` */
-
-DROP TABLE IF EXISTS `tb_reservas_obras`;
-
-CREATE TABLE `tb_reservas_obras` (
-  `idreserva` int(10) unsigned NOT NULL,
-  `idobra` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`idreserva`,`idobra`),
-  KEY `tb_reservas_has_tb_obras_FKIndex1` (`idreserva`),
-  KEY `tb_reservas_has_tb_obras_FKIndex2` (`idobra`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `tb_reservas_obras` */
+insert  into `tb_reservas`(`idreserva`,`idpessoa`,`data_reserva`,`data_retirada`,`num_exemplar`) values (1,1600559,'2017-06-02 16:37:17','2017-06-30',1);
 
 /*Table structure for table `tb_tipo_pessoa` */
 

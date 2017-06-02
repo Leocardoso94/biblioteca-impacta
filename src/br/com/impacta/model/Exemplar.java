@@ -107,7 +107,7 @@ public class Exemplar implements Crud {
 
 	public ArrayList<Exemplar> getListDeExemplaresValidos() throws ClassNotFoundException, SQLException {
 		ArrayList<Exemplar> exemplares = new ArrayList<>();
-		ResultSet rs = SQL.select("SELECT * FROM tb_exemplares ORDER BY num_exemplar", null);
+		ResultSet rs = SQL.select("SELECT * FROM  tb_exemplares a   LEFT JOIN `tb_reservas` b ON a.`num_exemplar` = b.`num_exemplar` WHERE b.`data_retirada` > NOW() OR b.`data_retirada` IS NULL ORDER BY a.num_exemplar ", null);
 		while (rs.next()) {
 			Exemplar exemplar = new Exemplar();
 			exemplar.setData(exemplar, rs);
