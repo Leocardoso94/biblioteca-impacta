@@ -80,7 +80,7 @@ public class Exemplar implements Crud {
 		ResultSet rs = SQL.select("SELECT * FROM tb_exemplares WHERE num_exemplar = :ID ", params);
 		rs.next();
 		this.setData(this, rs);
-
+		SQL.closeConnection();
 	}
 
 	public void setData(Exemplar exemplar, ResultSet rs) throws SQLException {
@@ -102,6 +102,7 @@ public class Exemplar implements Crud {
 			exemplar.setData(exemplar, rs);
 			exemplares.add(exemplar);
 		}
+		SQL.closeConnection();
 		return exemplares;
 	}
 
@@ -117,6 +118,7 @@ public class Exemplar implements Crud {
 				exemplares.add(exemplar);
 			}
 		}
+		SQL.closeConnection();
 		return exemplares;
 	}
 
@@ -128,18 +130,20 @@ public class Exemplar implements Crud {
 		while (rs.next()) {
 			Exemplar exemplar = new Exemplar();
 			exemplar.setData(exemplar, rs);
-				exemplares.add(exemplar);
+			exemplares.add(exemplar);
 		}
+		SQL.closeConnection();
 		return exemplares;
 	}
 
 	public static int count() throws ClassNotFoundException, SQLException {
-		ResultSet rs = new Sql().select("SELECT COUNT(`num_exemplar`) FROM `tb_exemplares`", null);
+		Sql sql = new Sql();
+		ResultSet rs = sql.select("SELECT COUNT(`num_exemplar`) FROM `tb_exemplares`", null);
 		int rows = 0;
 		if (rs.last()) {
 			rows = rs.getInt(1);
 		}
-
+		sql.closeConnection();
 		return rows;
 	}
 
@@ -160,6 +164,21 @@ public class Exemplar implements Crud {
 
 	public void setNomeobra(String nomeobra) {
 		this.nomeobra = nomeobra;
+	}
+
+	public ArrayList<Exemplar> busca(String busca) throws SQLException {
+		params.put("BUSCA", busca);
+		ResultSet rs = new Sql().select(
+				"SELECT * FROM `tb_exemplares` b INNER JOIN `tb_obras` a ON b.`idobra` = a.`idobra` WHERE titulo LIKE :BUSCA OR `num_exemplar` LIKE :BUSCA",
+				params);
+		ArrayList<Exemplar> exemplares = new ArrayList<>();
+		while (rs.next()) {
+			Exemplar exemplar = new Exemplar();
+			exemplar.setData(exemplar, rs);
+			exemplares.add(exemplar);
+		}
+		SQL.closeConnection();
+		return exemplares;
 	}
 
 }

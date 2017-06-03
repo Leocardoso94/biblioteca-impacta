@@ -139,6 +139,7 @@ public class Pessoa implements Crud {
 				params);
 		rs.next();
 		this.setData(this, rs);
+		SQL.closeConnection();
 	}
 
 	public boolean login() throws SQLException {
@@ -183,6 +184,7 @@ public class Pessoa implements Crud {
 			pessoa.setData(pessoa, rs);
 			pessoas.add(pessoa);
 		}
+		SQL.closeConnection();
 		return pessoas;
 	}
 
@@ -202,6 +204,7 @@ public class Pessoa implements Crud {
 				}
 			}
 		}
+		SQL.closeConnection();
 		return pessoas;
 	}
 
@@ -219,16 +222,18 @@ public class Pessoa implements Crud {
 
 			}
 		}
+		SQL.closeConnection();
 		return pessoas;
 	}
 
 	public static int count() throws SQLException {
-		ResultSet rs = new Sql().select("SELECT COUNT(`idpessoa`) FROM `tb_pessoas`", null);
+		Sql sql = new Sql();
+		ResultSet rs = sql.select("SELECT COUNT(`idpessoa`) FROM `tb_pessoas`", null);
 		int rows = 0;
 		if (rs.last()) {
 			rows = rs.getInt(1);
 		}
-
+		sql.closeConnection();
 		return rows;
 	}
 
@@ -275,6 +280,20 @@ public class Pessoa implements Crud {
 			return 15;
 		}
 		return 7;
+	}
+
+	public ArrayList<Pessoa> busca(String busca) throws SQLException {
+		params.put("BUSCA", busca);
+		ResultSet rs = new Sql().select(
+				"SELECT * FROM `tb_pessoas` a INNER JOIN `tb_tipo_pessoa` b ON a.idtipo_pessoa = b.idtipo_pessoa WHERE idpessoa LIKE :BUSCA OR `nome` LIKE :BUSCA OR `email` LIKE :BUSCA OR `telefone` LIKE :BUSCA OR `cpf` LIKE :BUSCA OR `nome_tipo` LIKE :BUSCA ",
+				params);
+		ArrayList<Pessoa> pessoas = new ArrayList<>();
+		while (rs.next()) {
+			Pessoa pessoa = new Pessoa();
+			pessoa.setData(pessoa, rs);
+			pessoas.add(pessoa);
+		}
+		return pessoas;
 	}
 
 }

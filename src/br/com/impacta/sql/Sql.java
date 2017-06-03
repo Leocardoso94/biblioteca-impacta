@@ -13,20 +13,22 @@ public class Sql {
 	private final String DBNAME = "impacta";
 	private Connection conn;
 
-	public Sql() {
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
+	public void openConnection() throws SQLException {
+		
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
 			this.conn = DriverManager.getConnection("jdbc:mysql://" + HOSTNAME + "/" + DBNAME, USERNAME, PASSWORD);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 
+	}
+	
+	public void closeConnection() throws SQLException{
+		this.conn.close();
 	}
 
 	/**
@@ -64,14 +66,17 @@ public class Sql {
 	 * @param params
 	 *            Os parametros da consulta
 	 * @throws SQLException
+	 * @throws ClassNotFoundException 
 	 */
 	public void query(String rawQuery, Map<String, String> params) throws SQLException {
+		this.openConnection();
 		NamedParameterStatement stmt = new NamedParameterStatement(conn, rawQuery);
 		if (params != null) {
 			this.setParams(stmt, params);
 		}
 		stmt.execute();
 		stmt.close();
+		this.closeConnection();
 	}
 
 	/**
@@ -85,6 +90,7 @@ public class Sql {
 	 * @throws SQLException
 	 */
 	public ResultSet select(String rawQuery, Map<String, String> params) throws SQLException {
+		this.openConnection();
 		NamedParameterStatement stmt = new NamedParameterStatement(conn, rawQuery);
 		if (params != null) {
 			this.setParams(stmt, params);

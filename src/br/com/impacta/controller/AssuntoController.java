@@ -1,9 +1,6 @@
 package br.com.impacta.controller;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -16,7 +13,6 @@ import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationExceptio
 
 import br.com.impacta.model.Assunto;
 import br.com.impacta.model.Pessoa;
-import br.com.impacta.sql.Sql;
 
 @Controller
 public class AssuntoController {
@@ -37,17 +33,8 @@ public class AssuntoController {
 	
 	@RequestMapping("admin/buscaAssunto")
 	public String buscaAssunto(HttpServletRequest request, Model model) throws ClassNotFoundException, SQLException {
-		HashMap<String, String> params = new HashMap<>();
 		String busca = "%" + request.getParameter("search") + "%";
-		params.put("BUSCA", busca);
-		ResultSet rs = new Sql().select("SELECT * From tb_assuntos WHERE nome_assunto LIKE :BUSCA or idassunto LIKE :BUSCA", params);
-		ArrayList<Assunto> assuntos = new ArrayList<>();
-		while (rs.next()) {			
-			Assunto assunto = new Assunto();
-			assunto.setData(assunto, rs);
-			assuntos.add(assunto);
-		}
-		model.addAttribute("assuntos",assuntos);
+		model.addAttribute("assuntos",new Assunto().busca(busca));
 		model.addAttribute("page", "assunto/form");
 		return "admin/index";
 	}

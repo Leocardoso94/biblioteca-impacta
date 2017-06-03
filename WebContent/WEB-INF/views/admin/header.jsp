@@ -62,7 +62,7 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition fixed skin-blue skin-black sidebar-mini">
 	<div class="wrapper">
 
 		<!-- Main Header -->
@@ -137,30 +137,18 @@ desired effect
 					</div>
 				</div>
 
-				<!-- search form (Optional) -->
-				<form action="#" method="get" class="sidebar-form">
-					<div class="input-group">
-						<input type="text" name="q" class="form-control"
-							placeholder="Search..."> <span class="input-group-btn">
-							<button type="submit" name="search" id="search-btn"
-								class="btn btn-flat">
-								<i class="fa fa-search"></i>
-							</button>
-						</span>
-					</div>
-				</form>
-				<!-- /.search form -->
+			
 
 				<!-- Sidebar Menu -->
 				<ul class="sidebar-menu">
-					<li class="header">HEADER</li>
+					<li class="header">Menu</li>
 					<!-- Optionally, you can add icons to the links -->
 					<li class="active"><a href="<c:url value="/admin"/>"><i
-							class="fa fa-link"></i> <span>Dashboard</span></a></li>
+							class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
 					<li class=""><a href="<c:url value="/admin/emprestimo"/>"><i
-							class="fa fa-link"></i> <span>Empréstimos</span></a></li>
+							class="fa  fa-bookmark"></i> <span>Empréstimos</span></a></li>
 					<li class=""><a href="<c:url value="/admin/reserva"/>"><i
-							class="fa fa-link"></i> <span>Reservas</span></a></li>
+							class="fa fa-calendar-plus-o"></i> <span>Reservas</span></a></li>
 					<li class="treeview"><a href="#"><i class="fa fa-book"></i>
 							<span>Acervo</span> <span class="pull-right-container"> <i
 								class="fa fa-angle-left pull-right"></i>
@@ -171,7 +159,7 @@ desired effect
 							<li><a href="<c:url value="/admin/assunto"/>">Assuntos</a></li>
 						</ul></li>
 					<li class=""><a href="<c:url value="/admin/pessoa"/>"><i
-							class="fa fa-user"></i> <span>Usuarios</span></a></li>
+							class="fa fa-users"></i> <span>Usuarios</span></a></li>
 					<li class=""><a href="<c:url value="/admin/autor"/>"><i
 							class="fa fa-male"></i> <span>Autores</span></a></li>
 					<li class=""><a href="<c:url value="/admin/editora"/>"><i

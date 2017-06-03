@@ -1,10 +1,7 @@
 package br.com.impacta.controller;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -19,7 +16,6 @@ import br.com.impacta.model.Autor;
 import br.com.impacta.model.Editora;
 import br.com.impacta.model.Obra;
 import br.com.impacta.model.Pessoa;
-import br.com.impacta.sql.Sql;
 
 @Controller
 public class ObraController {
@@ -51,19 +47,9 @@ public class ObraController {
 
 	@RequestMapping("admin/buscaObra")
 	public String buscaObra(HttpServletRequest request, Model model) throws ClassNotFoundException, SQLException {
-		HashMap<String, String> params = new HashMap<>();
 		String busca = "%" + request.getParameter("search") + "%";
-		params.put("BUSCA", busca);
-		ResultSet rs = new Sql().select(
-				"SELECT * FROM tb_obras tbo INNER JOIN tb_assuntos tba ON tba.`idassunto` = tbo.`idassunto` INNER JOIN tb_autores tbat ON tbat.`idautor` = tbo.`idautor` INNER JOIN tb_editoras tbe ON tbe.`ideditora` = tbo.`ideditora` WHERE tbo.`titulo` LIKE :BUSCA OR tba.`nome_assunto` LIKE :BUSCA OR tbat.`nome_autor` LIKE :BUSCA OR tbe.`nome_editora` LIKE :BUSCA OR tbo.`ano_publicacao` LIKE :BUSCA OR tbo.`idobra` LIKE :BUSCA",
-				params);
-		ArrayList<Obra> obras = new ArrayList<>();
-		while (rs.next()) {
-			Obra obra = new Obra();
-			obra.setData(obra, rs);
-			obras.add(obra);
-		}
-		model.addAttribute("obras", obras);
+
+		model.addAttribute("obras", new Obra().busca(busca));
 		model.addAttribute("page", "obra/form");
 		return "admin/index";
 	}

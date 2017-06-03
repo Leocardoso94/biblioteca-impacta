@@ -1,9 +1,6 @@
 package br.com.impacta.controller;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -16,14 +13,13 @@ import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationExceptio
 
 import br.com.impacta.model.Editora;
 import br.com.impacta.model.Pessoa;
-import br.com.impacta.sql.Sql;
 
 @Controller
 public class EditoraController {
 	private String erroEditoraExiste;
 
 	@RequestMapping("admin/editora")
-	public String carregar(Model model,HttpSession session) throws ClassNotFoundException, SQLException {
+	public String carregar(Model model, HttpSession session) throws ClassNotFoundException, SQLException {
 		Pessoa pessoa = (Pessoa) session.getAttribute("usuarioLogado");
 		pessoa.loadById();
 		model.addAttribute("pessoa", pessoa);
@@ -34,21 +30,14 @@ public class EditoraController {
 		model.addAttribute("page", "editora/form");
 		return "admin/index";
 	}
-	
+
 	@RequestMapping("admin/buscaEditora")
 	public String buscaEditora(HttpServletRequest request, Model model) throws ClassNotFoundException, SQLException {
-		HashMap<String, String> params = new HashMap<>();
 		String busca = "%" + request.getParameter("search") + "%";
-		params.put("BUSCA", busca);
-		ResultSet rs = new Sql().select("SELECT * From tb_editoras WHERE nome_editora LIKE :BUSCA or ideditora LIKE :BUSCA", params);
-		ArrayList<Editora> editoras = new ArrayList<>();
-		while (rs.next()) {			
-			Editora editora = new Editora();
-			editora.setData(editora, rs);
-			editoras.add(editora);
-		}
-		model.addAttribute("editoras",editoras);
+
+		model.addAttribute("editoras", new Editora().busca(busca));
 		model.addAttribute("page", "editora/form");
+		
 		return "admin/index";
 	}
 
@@ -62,7 +51,7 @@ public class EditoraController {
 		}
 		return "redirect:editora";
 	}
-	
+
 	@RequestMapping("admin/excluirEditora")
 	public String excluirEditora(Editora editora) throws ClassNotFoundException, SQLException {
 		editora.delete();

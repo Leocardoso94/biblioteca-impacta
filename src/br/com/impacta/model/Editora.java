@@ -42,8 +42,8 @@ public class Editora implements Crud {
 	public void delete() throws SQLException {
 		params.clear();
 		params.put("ID", Long.toString(this.getIdeditora()));
-		if(Validador.deletar("SELECT * FROM tb_obras where ideditora = :ID", params)){		
-		SQL.query("DELETE FROM tb_editoras where ideditora = :ID", params);
+		if (Validador.deletar("SELECT * FROM tb_obras where ideditora = :ID", params)) {
+			SQL.query("DELETE FROM tb_editoras where ideditora = :ID", params);
 		}
 		this.setIdeditora(0);
 	}
@@ -62,7 +62,7 @@ public class Editora implements Crud {
 		ResultSet rs = SQL.select("SELECT * FROM tb_editoras where ideditora = :ID", params);
 		rs.next();
 		this.setData(this, rs);
-
+		SQL.closeConnection();
 	}
 
 	public void setData(Editora editora, ResultSet rs) throws SQLException {
@@ -78,9 +78,10 @@ public class Editora implements Crud {
 			editora.setData(editora, rs);
 			editoras.add(editora);
 		}
+		SQL.closeConnection();
 		return editoras;
 	}
-	
+
 	public int contagemDeObrasPorEditora() throws SQLException {
 		params.clear();
 		params.put("ID", Long.toString(this.getIdeditora()));
@@ -89,7 +90,22 @@ public class Editora implements Crud {
 		if (rs.last()) {
 			rows = rs.getInt(1);
 		}
+		SQL.closeConnection();
 		return rows;
+	}
+
+	public ArrayList<Editora> busca(String busca) throws SQLException {
+		params.put("BUSCA", busca);
+		ResultSet rs = new Sql()
+				.select("SELECT * From tb_editoras WHERE nome_editora LIKE :BUSCA or ideditora LIKE :BUSCA", params);
+		ArrayList<Editora> editoras = new ArrayList<>();
+		while (rs.next()) {
+			Editora editora = new Editora();
+			editora.setData(editora, rs);
+			editoras.add(editora);
+		}
+		SQL.closeConnection();
+		return editoras;
 	}
 
 }

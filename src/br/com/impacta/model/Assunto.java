@@ -60,9 +60,10 @@ public class Assunto implements Crud {
 		this.params.clear();
 		params.put("ID", Integer.toString(getIdassunto()));
 		ResultSet rs = SQL.select("SELECT * FROM tb_assuntos WHERE idassunto = :ID", params);
+
 		rs.next();
 		this.setData(this, rs);
-
+		SQL.closeConnection();
 	}
 
 	public void setData(Assunto assunto, ResultSet rs) throws SQLException {
@@ -73,11 +74,13 @@ public class Assunto implements Crud {
 	public ArrayList<Assunto> getList() throws ClassNotFoundException, SQLException {
 		ArrayList<Assunto> assuntos = new ArrayList<>();
 		ResultSet rs = SQL.select("SELECT * FROM tb_assuntos ORDER BY nome_assunto", null);
+		
 		while (rs.next()) {
 			Assunto assunto = new Assunto();
 			assunto.setData(assunto, rs);
 			assuntos.add(assunto);
 		}
+		SQL.closeConnection();
 		return assuntos;
 	}
 
@@ -89,6 +92,7 @@ public class Assunto implements Crud {
 		if (rs.last()) {
 			rows = rs.getInt(1);
 		}
+		SQL.closeConnection();
 		return rows;
 	}
 
@@ -99,6 +103,20 @@ public class Assunto implements Crud {
 		params.put("NOME", this.getNome_assunto());
 		SQL.query("UPDATE tb_assuntos SET nome_assunto = :NOME WHERE idassunto = :ID", params);
 
+	}
+
+	public ArrayList<Assunto> busca(String busca) throws SQLException {
+		params.put("BUSCA", busca);
+		ResultSet rs = SQL.select("SELECT * From tb_assuntos WHERE nome_assunto LIKE :BUSCA or idassunto LIKE :BUSCA",
+				params);
+		ArrayList<Assunto> assuntos = new ArrayList<>();
+		while (rs.next()) {
+			Assunto assunto = new Assunto();
+			assunto.setData(assunto, rs);
+			assuntos.add(assunto);
+		}
+		SQL.closeConnection();
+		return assuntos;
 	}
 
 }

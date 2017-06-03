@@ -53,12 +53,13 @@ public class Reserva implements Crud {
 	}
 
 	public static int count() throws ClassNotFoundException, SQLException {
-		ResultSet rs = new Sql().select("SELECT COUNT(`idreserva`) FROM `tb_reservas`", null);
+		Sql sql = new Sql();
+		ResultSet rs = sql.select("SELECT COUNT(`idreserva`) FROM `tb_reservas`", null);
 		int rows = 0;
 		if (rs.last()) {
 			rows = rs.getInt(1);
 		}
-
+		sql.closeConnection();
 		return rows;
 	}
 
@@ -75,19 +76,20 @@ public class Reserva implements Crud {
 		params.clear();
 		params.put("NUM", Long.toString(this.getNum_exemplar()));
 		ResultSet rs = SQL.select("select data_prevista_retorno from tb_emprestimos where num_exemplar = :NUM", params);
-		rs.next();	
+		rs.next();
 
 		Calendar c1 = Calendar.getInstance();
 
-		c1.setTime( rs.getDate("data_prevista_retorno"));
+		c1.setTime(rs.getDate("data_prevista_retorno"));
 		c1.add(Calendar.DATE, +1);
 		Date data = c1.getTime();
 
 		params.put("DATA", new SimpleDateFormat("yyyy/MM/dd").format(data));
 		params.put("PESSOA", Long.toString(this.getIdpessoa()));
 		params.put("NUM", Long.toString(this.getNum_exemplar()));
-		SQL.query("INSERT INTO tb_reservas (idpessoa, num_exemplar, data_retirada)"
-				+ "VALUES(:PESSOA, :NUM, :DATA)", params);
+		SQL.query("INSERT INTO tb_reservas (idpessoa, num_exemplar, data_retirada)" + "VALUES(:PESSOA, :NUM, :DATA)",
+				params);
+		SQL.closeConnection();
 	}
 
 	@Override
@@ -152,6 +154,22 @@ public class Reserva implements Crud {
 			reserva.setData(reserva, rs);
 			reservas.add(reserva);
 		}
+		SQL.closeConnection();
+		return reservas;
+	}
+
+	public ArrayList<Reserva> busca(String busca) throws SQLException {
+		params.put("BUSCA", busca);
+		ResultSet rs = new Sql().select(
+				"SELECT a.`data_reserva`,a.`data_retirada`, a.`idreserva`,a.`idpessoa`,a.`num_exemplar` FROM `tb_reservas` a INNER JOIN `tb_pessoas` b ON b.`idpessoa` = a.`idpessoa` INNER JOIN `tb_exemplares` c ON c.`num_exemplar` = a.`num_exemplar` INNER JOIN `tb_obras` d ON d.`idobra` = c.`idobra` WHERE a.`idpessoa` LIKE :BUSCA OR b.`nome`  LIKE :BUSCA OR a.`idreserva` LIKE :BUSCA OR a.`num_exemplar`  LIKE :BUSCA OR d.`titulo` LIKE :BUSCA",
+				params);
+		ArrayList<Reserva> reservas = new ArrayList<>();
+		while (rs.next()) {
+			Reserva reserva = new Reserva();
+			reserva.setData(reserva, rs);
+			reservas.add(reserva);
+		}
+		SQL.closeConnection();
 		return reservas;
 	}
 }

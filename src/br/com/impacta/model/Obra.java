@@ -114,7 +114,7 @@ public class Obra implements Crud {
 		ResultSet rs = SQL.select("SELECT * FROM tb_obras WHERE idobra = :ID", params);
 		rs.next();
 		this.setData(this, rs);
-
+		SQL.closeConnection();
 	}
 
 	public void setData(Obra obra, ResultSet rs) throws SQLException {
@@ -134,6 +134,7 @@ public class Obra implements Crud {
 			obra.setData(obra, rs);
 			obras.add(obra);
 		}
+		SQL.closeConnection();
 		return obras;
 	}
 
@@ -178,6 +179,24 @@ public class Obra implements Crud {
 		if (rs.last()) {
 			rows = rs.getInt(1);
 		}
+		SQL.closeConnection();
 		return rows;
 	}
+
+	public ArrayList<Obra> busca(String busca) throws SQLException {
+		params.put("BUSCA", busca);
+		ResultSet rs = new Sql().select(
+				"SELECT * FROM tb_obras tbo INNER JOIN tb_assuntos tba ON tba.`idassunto` = tbo.`idassunto` INNER JOIN tb_autores tbat ON tbat.`idautor` = tbo.`idautor` INNER JOIN tb_editoras tbe ON tbe.`ideditora` = tbo.`ideditora` WHERE tbo.`titulo` LIKE :BUSCA OR tba.`nome_assunto` LIKE :BUSCA OR tbat.`nome_autor` LIKE :BUSCA OR tbe.`nome_editora` LIKE :BUSCA OR tbo.`ano_publicacao` LIKE :BUSCA OR tbo.`idobra` LIKE :BUSCA",
+				params);
+		ArrayList<Obra> obras = new ArrayList<>();
+		while (rs.next()) {
+			Obra obra = new Obra();
+			obra.setData(obra, rs);
+			obras.add(obra);
+		}
+		SQL.closeConnection();
+		return obras;
+	}
+
+	
 }

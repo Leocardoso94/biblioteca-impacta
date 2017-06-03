@@ -49,8 +49,8 @@ public class Autor implements Crud {
 	public void delete() throws SQLException {
 		params.clear();
 		params.put("ID", Long.toString(this.getIdautor()));
-		if(Validador.deletar("SELECT * FROM `tb_obras` where idautor = :ID", params)){
-		SQL.query("DELETE FROM tb_autores where idautor = :ID", params);
+		if (Validador.deletar("SELECT * FROM `tb_obras` where idautor = :ID", params)) {
+			SQL.query("DELETE FROM tb_autores where idautor = :ID", params);
 		}
 		this.setIdautor(0);
 	}
@@ -62,6 +62,7 @@ public class Autor implements Crud {
 		ResultSet rs = SQL.select("SELECT * FROM tb_autores where idautor = :ID", params);
 		rs.next();
 		this.setData(this, rs);
+		SQL.closeConnection();
 	}
 
 	/**
@@ -89,6 +90,7 @@ public class Autor implements Crud {
 			autor.setData(autor, rs);
 			autores.add(autor);
 		}
+		SQL.closeConnection();
 		return autores;
 	}
 
@@ -98,7 +100,7 @@ public class Autor implements Crud {
 		params.put("NOME", this.getNome_autor());
 		SQL.query("UPDATE   `impacta`.`tb_autores` SET  `nome_autor` = :NOME WHERE idautor = :ID", params);
 	}
-	
+
 	public int contagemDeObrasPorAutor() throws SQLException {
 		params.clear();
 		params.put("ID", Long.toString(this.getIdautor()));
@@ -107,7 +109,22 @@ public class Autor implements Crud {
 		if (rs.last()) {
 			rows = rs.getInt(1);
 		}
+		SQL.closeConnection();
 		return rows;
+	}
+
+	public ArrayList<Autor> busca(String busca) throws SQLException {
+		params.put("BUSCA", busca);
+		ResultSet rs = new Sql().select("SELECT * From tb_autores WHERE nome_autor LIKE :BUSCA OR idautor LIKE :BUSCA",
+				params);
+		ArrayList<Autor> autores = new ArrayList<>();
+		while (rs.next()) {
+			Autor autor = new Autor();
+			autor.setData(autor, rs);
+			autores.add(autor);
+		}
+		SQL.closeConnection();
+		return autores;
 	}
 
 }

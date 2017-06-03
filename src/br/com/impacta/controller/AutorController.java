@@ -1,9 +1,6 @@
 package br.com.impacta.controller;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -16,7 +13,6 @@ import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationExceptio
 
 import br.com.impacta.model.Autor;
 import br.com.impacta.model.Pessoa;
-import br.com.impacta.sql.Sql;
 
 @Controller
 public class AutorController {
@@ -48,18 +44,11 @@ public class AutorController {
 
 	@RequestMapping("admin/buscarAutor")
 	public String buscarAutor(HttpServletRequest request, Model model) throws ClassNotFoundException, SQLException {
-		HashMap<String, String> params = new HashMap<>();
 		String busca = "%" + request.getParameter("search") + "%";
-		params.put("BUSCA", busca);
-		ResultSet rs = new Sql().select("SELECT * From tb_autores WHERE nome_autor LIKE :BUSCA OR idautor LIKE :BUSCA", params);
-		ArrayList<Autor> autores = new ArrayList<>();
-		while (rs.next()) {			
-			Autor autor = new Autor();
-			autor.setData(autor, rs);
-			autores.add(autor);
-		}
-		model.addAttribute("autores",autores);
+		
+		model.addAttribute("autores", new Autor().busca(busca));
 		model.addAttribute("page", "autor/form");
+		
 		return "admin/index";
 	}
 

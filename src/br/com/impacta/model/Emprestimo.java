@@ -63,12 +63,14 @@ public class Emprestimo implements Crud {
 	}
 
 	public static int count() throws ClassNotFoundException, SQLException {
-		ResultSet rs = new Sql().select("SELECT COUNT(`idemprestimo`) FROM `tb_emprestimos`", null);
+		Sql sql = new Sql();
+
+		ResultSet rs = sql.select("SELECT COUNT(`idemprestimo`) FROM `tb_emprestimos`", null);
 		int rows = 0;
 		if (rs.last()) {
 			rows = rs.getInt(1);
 		}
-
+		sql.closeConnection();
 		return rows;
 	}
 
@@ -86,6 +88,7 @@ public class Emprestimo implements Crud {
 		ResultSet rs = SQL.select("SELECT * FROM tb_emprestimos where idemprestimo = :ID", params);
 		rs.next();
 		this.setData(this, rs);
+		SQL.closeConnection();
 	}
 
 	@Override
@@ -123,7 +126,7 @@ public class Emprestimo implements Crud {
 				+ new SimpleDateFormat("yyyy/MM/dd").format(dataPrevista) + "' )", null);
 		SQL.query("UPDATE  `tb_exemplares` SET  `emprestado` = 1 WHERE num_exemplar = '" + getNum_exemplar() + "'",
 				null);
-
+		SQL.closeConnection();
 	}
 
 	@Override
@@ -171,12 +174,13 @@ public class Emprestimo implements Crud {
 
 	public ArrayList<Emprestimo> getList() throws SQLException {
 		ArrayList<Emprestimo> emprestimos = new ArrayList<>();
-		ResultSet rs = SQL.select("SELECT * FROM tb_emprestimos ORDER BY idemprestimo", null);
+		ResultSet rs = SQL.select("SELECT * FROM tb_emprestimos ORDER BY  finalizado, idemprestimo DESC", null);
 		while (rs.next()) {
 			Emprestimo emprestimo = new Emprestimo();
 			emprestimo.setData(emprestimo, rs);
 			emprestimos.add(emprestimo);
 		}
+		SQL.closeConnection();
 		return emprestimos;
 	}
 
@@ -208,6 +212,21 @@ public class Emprestimo implements Crud {
 			diferencaDias = (dataAte.getTime() - getData_prevista_retorno().getTime()) / (1000 * 60 * 60 * 24);
 		}
 		return diferencaDias * MULTA;
+	}
+
+	public ArrayList<Emprestimo> busca(String busca) throws SQLException {
+		params.put("BUSCA", busca);
+		ResultSet rs = new Sql().select(
+				"SELECT a.`data_emprestimo`,a.`data_prevista_retorno`,a.`finalizado`,a.`idemprestimo`,a.`idpessoa`,a.`num_exemplar` FROM `tb_emprestimos` a INNER JOIN `tb_pessoas` b ON b.`idpessoa` = a.`idpessoa` INNER JOIN `tb_exemplares` c ON c.`num_exemplar` = a.`num_exemplar` INNER JOIN `tb_obras` d ON d.`idobra` = c.`idobra` WHERE a.`idpessoa` LIKE :BUSCA OR b.`nome`  LIKE :BUSCA OR a.`idemprestimo` LIKE :BUSCA OR a.`num_exemplar`  LIKE :BUSCA OR d.`titulo` LIKE :BUSCA",
+				params);
+		ArrayList<Emprestimo> emprestimos = new ArrayList<>();
+		while (rs.next()) {
+			Emprestimo emprestimo = new Emprestimo();
+			emprestimo.setData(emprestimo, rs);
+			emprestimos.add(emprestimo);
+		}
+		SQL.closeConnection();
+		return emprestimos;
 	}
 
 }

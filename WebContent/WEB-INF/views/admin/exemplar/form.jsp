@@ -79,10 +79,10 @@
 											<button type="button" class="close" data-dismiss="modal">&times;</button>
 											<h4 class="modal-title">Alterar</h4>
 										</div>
+										<form role="form" method="post" class="form-horizontal"
+											action="alterarExemplar">
+											<div class="modal-body">
 
-										<div class="modal-body">
-											<form role="form" method="post" class="form-horizontal"
-												action="alterarExemplar">
 												<div class="box-body">
 													<input type="hidden" name="num_exemplar"
 														value="${exemplar.num_exemplar}">
@@ -112,14 +112,14 @@
 														</div>
 													</div>
 												</div>
-											</form>
-										</div>
-										<div class="modal-footer">
-											<button type="button" class="btn btn-default"
-												data-dismiss="modal">Cancelar</button>
-											<button type="submit" class="btn btn-outline">Alterar</button>
-										</div>
 
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default"
+													data-dismiss="modal">Cancelar</button>
+												<button type="submit" class="btn btn-outline">Alterar</button>
+											</div>
+										</form>
 									</div>
 								</div>
 							</div>
