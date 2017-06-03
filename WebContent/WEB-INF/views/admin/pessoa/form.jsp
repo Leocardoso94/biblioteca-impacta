@@ -2,7 +2,7 @@
 
 <section class="content-header">
 	<h1>
-		Pessoas <small></small>
+		Usuários <small></small>
 	</h1>
 </section>
 
@@ -13,10 +13,10 @@
 		<div class="col-md-12">
 			<div class="box box-success">
 				<div class="box-header with-border">
-					<h3 class="box-title">Lista de Pessoas</h3>
+					<h3 class="box-title">Lista de Usuários</h3>
 					<button class="btn btn-primary pull-right" data-toggle="modal"
 						data-target="#inserir${pessoa.idpessoa}">
-						<i class="fa fa-plus" aria-hidden="true"></i>
+						<i class="fa fa-plus" aria-hidden="true"></i> Novo Usuário
 					</button>
 					<hr>
 					<form action="buscaPessoa" method="get" class="">

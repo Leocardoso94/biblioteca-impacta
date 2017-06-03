@@ -16,7 +16,7 @@
 					<h3 class="box-title">Lista de Exemplares</h3>
 					<button class="btn btn-primary pull-right" data-toggle="modal"
 						data-target="#inserir${exemplar.num_exemplar}">
-						<i class="fa fa-plus" aria-hidden="true"></i>
+						<i class="fa fa-plus" aria-hidden="true"></i> Novo Exemplar
 					</button>
 					<hr>
 					<form action="buscaExemplar" method="get" class="">

@@ -16,7 +16,7 @@
 					<h3 class="box-title">Lista de Empréstimos</h3>
 					<button class="btn btn-primary pull-right" data-toggle="modal"
 						data-target="#inserir${emprestimo.idemprestimo}">
-						<i class="fa fa-plus" aria-hidden="true"></i>
+						<i class="fa fa-plus" aria-hidden="true"></i> Novo Empréstimo
 					</button>
 					<hr>
 					<form action="buscaEmprestimo" method="get" class="">

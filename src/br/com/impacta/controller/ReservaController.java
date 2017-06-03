@@ -26,7 +26,7 @@ public class ReservaController {
 		pessoa.loadById();
 		model.addAttribute("pessoa", pessoa);
 		model.addAttribute("reservas", new Reserva().getList());
-		model.addAttribute("exemplares", new Exemplar().getListDeExemplaresValidos());
+		model.addAttribute("exemplares", new Exemplar().getListDeExemplaresValidosParaReserva());
 		model.addAttribute("pessoas", new Pessoa().getListDePessoasValidas());
 		model.addAttribute("page", "reserva/form");
 		return "admin/index";
@@ -35,6 +35,7 @@ public class ReservaController {
 	@RequestMapping("admin/adicionarReserva")
 	public String adicionarReserva(Reserva reserva) throws ClassNotFoundException, SQLException {
 		reserva.insert();
+		System.out.println(reserva.getIdpessoa() +"\n" +reserva.getNum_exemplar());
 		return "redirect:reserva";
 	}
 
@@ -44,7 +45,7 @@ public class ReservaController {
 		String busca = "%" + request.getParameter("search") + "%";
 		params.put("BUSCA", busca);
 		ResultSet rs = new Sql().select(
-				"SELECT a.`data_reserva`,a.`data_prevista_retorno`,a.`finalizado`,a.`idreserva`,a.`idpessoa`,a.`num_exemplar` FROM `tb_reservas` a INNER JOIN `tb_pessoas` b ON b.`idpessoa` = a.`idpessoa` INNER JOIN `tb_exemplares` c ON c.`num_exemplar` = a.`num_exemplar` INNER JOIN `tb_obras` d ON d.`idobra` = c.`idobra` WHERE a.`idpessoa` LIKE :BUSCA OR b.`nome`  LIKE :BUSCA OR a.`idreserva` LIKE :BUSCA OR a.`num_exemplar`  LIKE :BUSCA OR d.`titulo` LIKE :BUSCA",
+				"SELECT a.`data_reserva`,a.`data_retirada`, a.`idreserva`,a.`idpessoa`,a.`num_exemplar` FROM `tb_reservas` a INNER JOIN `tb_pessoas` b ON b.`idpessoa` = a.`idpessoa` INNER JOIN `tb_exemplares` c ON c.`num_exemplar` = a.`num_exemplar` INNER JOIN `tb_obras` d ON d.`idobra` = c.`idobra` WHERE a.`idpessoa` LIKE :BUSCA OR b.`nome`  LIKE :BUSCA OR a.`idreserva` LIKE :BUSCA OR a.`num_exemplar`  LIKE :BUSCA OR d.`titulo` LIKE :BUSCA",
 				params);
 		ArrayList<Reserva> reservas = new ArrayList<>();
 		while (rs.next()) {

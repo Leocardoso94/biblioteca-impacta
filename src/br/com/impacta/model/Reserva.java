@@ -2,7 +2,9 @@ package br.com.impacta.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -70,8 +72,22 @@ public class Reserva implements Crud {
 
 	@Override
 	public void insert() throws SQLException {
-		// TODO Auto-generated method stub
+		params.clear();
+		params.put("NUM", Long.toString(this.getNum_exemplar()));
+		ResultSet rs = SQL.select("select data_prevista_retorno from tb_emprestimos where num_exemplar = :NUM", params);
+		rs.next();	
 
+		Calendar c1 = Calendar.getInstance();
+
+		c1.setTime( rs.getDate("data_prevista_retorno"));
+		c1.add(Calendar.DATE, +1);
+		Date data = c1.getTime();
+
+		params.put("DATA", new SimpleDateFormat("yyyy/MM/dd").format(data));
+		params.put("PESSOA", Long.toString(this.getIdpessoa()));
+		params.put("NUM", Long.toString(this.getNum_exemplar()));
+		SQL.query("INSERT INTO tb_reservas (idpessoa, num_exemplar, data_retirada)"
+				+ "VALUES(:PESSOA, :NUM, :DATA)", params);
 	}
 
 	@Override
@@ -92,19 +108,22 @@ public class Reserva implements Crud {
 
 	}
 
-	public void cancelar() {
-		// TODO Auto-generated method stub
-
+	public void cancelar() throws SQLException {
+		params.clear();
+		params.put("ID", Long.toString(this.getIdreserva()));
+		SQL.query("DELETE FROM tb_reservas where idreserva = :ID", params);
 	}
 
-	public String getNomeExemplar() throws SQLException{
+	public String getNomeExemplar() throws SQLException {
 		params.clear();
 		params.put("NUM", Long.toString(this.getNum_exemplar()));
-		ResultSet rs = SQL.select("SELECT   d.`titulo` FROM  tb_exemplares a   INNER JOIN `tb_reservas` b     ON a.`num_exemplar` = b.`num_exemplar`   INNER JOIN `tb_obras` d     ON a.`idobra` = d.`idobra` WHERE a.num_exemplar = :NUM", params);
+		ResultSet rs = SQL.select(
+				"SELECT   d.`titulo` FROM  tb_exemplares a   INNER JOIN `tb_reservas` b     ON a.`num_exemplar` = b.`num_exemplar`   INNER JOIN `tb_obras` d     ON a.`idobra` = d.`idobra` WHERE a.num_exemplar = :NUM",
+				params);
 		rs.next();
-		return rs.getString(1);		
+		return rs.getString(1);
 	}
-	
+
 	public String getNomePessoa() throws SQLException {
 		params.clear();
 		params.put("ID", Long.toString(getIdreserva()));

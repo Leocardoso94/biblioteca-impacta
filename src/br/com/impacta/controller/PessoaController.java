@@ -55,6 +55,7 @@ public class PessoaController {
 			pessoas.add(pessoa);
 		}
 		model.addAttribute("pessoas", pessoas);
+		model.addAttribute("tiposPessoa", new TipoPessoa().getList());
 		model.addAttribute("page", "pessoa/form");
 		return "admin/index";
 	}

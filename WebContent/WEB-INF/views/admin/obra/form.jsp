@@ -16,7 +16,7 @@
 					<h3 class="box-title">Lista de Obras</h3>
 					<button class="btn btn-primary pull-right" data-toggle="modal"
 						data-target="#inserir${obra.idobra}">
-						<i class="fa fa-plus" aria-hidden="true"></i>
+						<i class="fa fa-plus" aria-hidden="true"></i> Nova Obra
 					</button>
 					<hr>
 					<form action="buscaObra" method="get" class="">

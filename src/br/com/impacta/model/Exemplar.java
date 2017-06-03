@@ -107,18 +107,32 @@ public class Exemplar implements Crud {
 
 	public ArrayList<Exemplar> getListDeExemplaresValidos() throws ClassNotFoundException, SQLException {
 		ArrayList<Exemplar> exemplares = new ArrayList<>();
-		ResultSet rs = SQL.select("SELECT * FROM  tb_exemplares a   LEFT JOIN `tb_reservas` b ON a.`num_exemplar` = b.`num_exemplar` WHERE b.`data_retirada` > NOW() OR b.`data_retirada` IS NULL ORDER BY a.num_exemplar ", null);
+		ResultSet rs = SQL.select(
+				"SELECT * FROM  tb_exemplares a   LEFT JOIN `tb_reservas` b ON a.`num_exemplar` = b.`num_exemplar` WHERE b.`data_retirada` > NOW() OR b.`data_retirada` IS NULL ORDER BY a.num_exemplar ",
+				null);
 		while (rs.next()) {
 			Exemplar exemplar = new Exemplar();
 			exemplar.setData(exemplar, rs);
-			if(!exemplar.isEmprestado()){
+			if (!exemplar.isEmprestado()) {
 				exemplares.add(exemplar);
 			}
 		}
 		return exemplares;
 	}
-	
-	
+
+	public ArrayList<Exemplar> getListDeExemplaresValidosParaReserva() throws ClassNotFoundException, SQLException {
+		ArrayList<Exemplar> exemplares = new ArrayList<>();
+		ResultSet rs = SQL.select(
+				"SELECT * FROM  tb_exemplares a inner join `tb_emprestimos` b ON a.`num_exemplar` = b.`num_exemplar` left join tb_reservas c on a.`num_exemplar` = c.`num_exemplar` where b.finalizado = 0 and( c.data_retirada < now() or c.data_retirada is null)",
+				null);
+		while (rs.next()) {
+			Exemplar exemplar = new Exemplar();
+			exemplar.setData(exemplar, rs);
+				exemplares.add(exemplar);
+		}
+		return exemplares;
+	}
+
 	public static int count() throws ClassNotFoundException, SQLException {
 		ResultSet rs = new Sql().select("SELECT COUNT(`num_exemplar`) FROM `tb_exemplares`", null);
 		int rows = 0;

@@ -2,25 +2,16 @@ package br.com.impacta.teste;
 
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
+
+import br.com.impacta.model.Reserva;
 
 public class Testes {
 
 	public static void main(String[] args) throws SQLException, ClassNotFoundException, ParseException {
 
-		// Usuário informa uma data
-		Date dataDoUsuario = new Date();
-
-		// Através do Calendar, trabalhamos a data informada e adicionamos 1 dia nela
-		Calendar c = Calendar.getInstance();
-		c.setTime(dataDoUsuario);
-		c.add(Calendar.DATE, -1);
-
-		// Obtemos a data alterada
-		Date data = c.getTime();
-		
-		System.out.println(dataDoUsuario.compareTo(data));
-
+		Reserva reserva  = new Reserva();
+	reserva.setIdpessoa(1600561);
+	reserva.setNum_exemplar(548232035);
+	reserva.insert();
 	}
 }

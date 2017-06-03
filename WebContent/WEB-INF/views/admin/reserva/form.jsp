@@ -16,7 +16,7 @@
 					<h3 class="box-title">Lista de Reservas</h3>
 					<button class="btn btn-primary pull-right" data-toggle="modal"
 						data-target="#inserir${reserva.idreserva}">
-						<i class="fa fa-plus" aria-hidden="true"></i>
+						<i class="fa fa-plus" aria-hidden="true"></i> Nova Reserva	
 					</button>
 					<hr>
 					<form action="buscaReserva" method="get" class="">
@@ -55,9 +55,14 @@
 										type="date" dateStyle="long" /></td>
 								<td><fmt:formatDate value="${reserva.data_retirada}"
 										type="date" dateStyle="long" /></td>
+										<td><button class="btn btn-danger" data-toggle="modal"
+												data-target="#modal${reserva.idreserva}">
+												<i class="fa fa-check-square" aria-hidden="true"></i>
+												Cancelar
+											</button></td>
 							</tr>
 
-							<div class="modal fade modal-success"
+							<div class="modal fade modal-danger"
 								id="modal${reserva.idreserva}" role="dialog">
 								<div class="modal-dialog">
 
@@ -65,10 +70,10 @@
 									<div class="modal-content">
 										<div class="modal-header">
 											<button type="button" class="close" data-dismiss="modal">&times;</button>
-											<h4 class="modal-title">Devolver</h4>
+											<h4 class="modal-title">Cancelar</h4>
 										</div>
 										<form role="form" method="post" class="form-horizontal"
-											action="devolver">
+											action="cancelar">
 											<div class="modal-body">
 
 												<input value="${reserva.idreserva}" name="idreserva"
@@ -76,10 +81,8 @@
 												<div class="box-body">
 													<div class="form-group">
 														<p>
-															Tem certeza que deseja efetuar a devolução deste
-															exemplar?<br>Após isso o processo não poderá ser
-															desfeito.<br> <br>Lembre-se o usuário deve
-															pagar de multa.
+															Tem certeza que deseja cancelar esta reserva?<br>Após isso o processo não poderá ser
+															desfeito.
 														</p>
 													</div>
 												</div>
@@ -87,7 +90,7 @@
 											<div class="modal-footer">
 												<button type="button" class="btn btn-default"
 													data-dismiss="modal">Cancelar</button>
-												<button type="submit" class="btn btn-outline">Devolver</button>
+												<button type="submit" class="btn btn-outline">Deletar</button>
 											</div>
 										</form>
 									</div>
@@ -139,24 +142,12 @@
 												</select>
 											</div>
 										</div>
-										<div class="form-group">
-											<label for="inputSenha" class="col-sm-6 control-label">O
-												usuário deve digitar a senha de acesso:</label>
-											<div class="col-sm-6">
-												<input type="password" name="senha" placeholder="Senha"
-													class="form-control" id="inputSenha">
-											</div>
-										</div>
-										<div class="form-group">
-											<button type="button" class="btn btn-danger pull-right"
-												onclick="checaSenha()">Validar usuário</button>
-										</div>
 									</div>
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-default"
 										data-dismiss="modal">Cancelar</button>
-									<button type="submit" disabled id="btnReserva"
+									<button type="submit"  id="btnReserva"
 										class="btn btn-outline">Inserir</button>
 								</div>
 							</form>

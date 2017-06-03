@@ -83,7 +83,7 @@
 	<!-- TABLE: LATEST ORDERS -->
 	<div class="box box-info">
 		<div class="box-header with-border">
-			<h3 class="box-title">Últimos empréstimos</h3>
+			<h3 class="box-title">Últimos empréstimos mao finalizados</h3>
 
 			<div class="box-tools pull-right">
 				<button type="button" class="btn btn-box-tool"

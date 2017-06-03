@@ -205,6 +205,23 @@ public class Pessoa implements Crud {
 		return pessoas;
 	}
 
+	public ArrayList<Pessoa> getListDePessoasValidasParaReserva() throws SQLException {
+		ArrayList<Pessoa> pessoas = new ArrayList<>();
+		ResultSet rs = SQL.select(
+				"SELECT * FROM `tb_pessoas` a, tb_tipo_pessoa b where a.idtipo_pessoa = b.idtipo_pessoa order by nome",
+				null);
+		while (rs.next()) {
+			Pessoa pessoa = new Pessoa();
+			pessoa.setData(pessoa, rs);
+			if (!pessoa.isAtrasado()) {
+
+				pessoas.add(pessoa);
+
+			}
+		}
+		return pessoas;
+	}
+
 	public static int count() throws SQLException {
 		ResultSet rs = new Sql().select("SELECT COUNT(`idpessoa`) FROM `tb_pessoas`", null);
 		int rows = 0;
@@ -252,12 +269,12 @@ public class Pessoa implements Crud {
 		}
 		return rows;
 	}
-	
-	public int diasEmprestimos(){
-		if(this.getIdtipo_pessoa()==3){
+
+	public int diasEmprestimos() {
+		if (this.getIdtipo_pessoa() == 3) {
 			return 15;
 		}
-		return 7;		
+		return 7;
 	}
 
 }
